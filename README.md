@@ -1,7 +1,8 @@
 # APCS
+
 AP Computer Science Code
 
-Important Links:
+# Important Links:
 
 CodingBat: https://codingbat.com/java
 
