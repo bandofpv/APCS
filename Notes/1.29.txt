@@ -1,0 +1,4 @@
+Is Java case sensitive? What is the case for Java keywords?
+
+Yes java is case sensitive. Some Java keywords are lower case like "boolean" 
+and other are upper case like "String" 
