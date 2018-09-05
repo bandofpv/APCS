@@ -6,6 +6,6 @@ AP Computer Science Code
 
 CodingBat: https://codingbat.com/java
 
-Trinket.io: https://trinket.io/
+repl.it: https://repl.it/
 
 CS5: https://www.cs.hmc.edu/twiki/bin/view/CS5/WebHome
