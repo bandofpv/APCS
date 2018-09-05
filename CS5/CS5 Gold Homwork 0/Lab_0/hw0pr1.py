@@ -1,7 +1,3 @@
-6*7
-10**100
-print("Zero is", 4+4-4-4)
-
 # CS5 Gold/Black: Lab 0, Problem 1
 # Filename: hw0pr1.py
 # Name: Andrew Bernas
