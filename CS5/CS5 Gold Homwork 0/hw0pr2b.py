@@ -4,11 +4,10 @@
 #
 
 """ 
-Title for your adventure:   The Quest.
+Title for your adventure: "Choices".
 
 Notes on how to "win" or "lose" this adventure:
-  To win, choose the table.
-  To lose, choose the door.
+  Don't die...
 
 """
 
