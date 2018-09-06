@@ -16,53 +16,79 @@ import time
 
 def adventure():
     """ this function runs one session of interactive fiction
-        Well, it's "fiction," depending on the pill color chosen...
-        arguments: no arguments (prompted text doesn't count as an argument)
-        results: no results     (printing doesn't count as a result)
     """
-    delay = 0.0          # change to 0.0 for testing or speed runs,
-                         # ..larger for dramatic effect!
 
-    username = input("What do they call you, worthy adventurer? ")
-
+    username = input("Hello! what is your name? ")
+    print("Hey ", username)
+    time.sleep(1)
     print()
-    print("Welcome,", username, " to the Libra Complex, a labyrinth")
-    print("of weighty wonders and unreal quantities...of poptarts!")
+    print("Lets go on an adveture!!!")
+    time.sleep(1.5)
     print()
-
-    print("Your quest: To find--and partake of--a poptart!")
+    print("It is 2043, and you have the opprotunity to buy a car!!!")
     print()
-    flavor = input("What flavor do you seek? ")
-    if flavor == "strawberry":
-        print("Wise! You show deep poptart experience.")
-    elif flavor == "s'mores":
-        print("The taste of the campfire: well chosen, adventurer!")
+    time.sleep(1)
+    car = input("Do you wish to get a ferrari or a lambo? ")
+    print()
+    print(car, "???")
+    time.sleep(1)
+    print()
+    if(car == "ferrari"): 
+      print("sweet...")
+    elif(car == "lambo"):
+      print("booooo...")
+    else: 
+      print("uh... ")
+      print()
+      time.sleep(2)
+      print("ok...")
+    print()
+    time.sleep(1)
+    choice = input("Now you can either race it, paint it, or upgrade it: ")
+    print()
+    time.sleep(0.5)
+    if(choice == "race it"):
+      print("good luck!!!")
+    elif(choice == "paint it"):
+      print("how exciting!!!")
+    elif(choice == "upgrade it"):
+      print("you should put wings on it!!!")
+      time.sleep(0.5)
+      print()
+      print("lol")
     else:
-        print("Each to their own, then.")
+      print("Sorry... not an option")
+      return
+    time.sleep(1)
     print()
-
-    print("On to the quest!\n\n")
-    print("A corridor stretches before you; its dim lighting betrays, to one side,")
-    print("a table supporting nameless forms of inorganic bulk and, to the other,")
-    print("a door ajar, leaking laughter--is that laughter?--of lab-goers.")
-    time.sleep(delay)
+    newChoice = input("U still with me??? ")
     print()
-
-    choice1 = input("Do you choose the table or the door? [table/door] ")
+    time.sleep(1)
+    if(newChoice == "yeah"):
+      print("Great!!!")
+    else:
+      print("k bye...")
+      return
+    time.sleep(1)
     print()
-
-    if choice1 == "table":
-        print("As you approach the table, its hazy burdens loom ever larger, until...")
-        time.sleep(delay)
-        print("...they resolve into unending stacks of poptarts, foil shimmering.")
-        print("You succeed, sumptuously, in sating the challenge--and your hunger.")
-        print("Go well,", username, "!")
-
-    else:  
-        print("You push the door into a gathering of sagefowl, athenas, and stags alike,")
-        print("all relishing their tasks. Teamwork and merriment abound here, except...")
-        time.sleep(delay)
-        print("...they have consumed ALL of the poptarts! Drifts of wrappers coat the floor.")
-        print("Dizzy, you grasp for a pastry. None is at hand. You exhale and slip")
-        print("under the teeming tide of foil as it finishes winding around you.")
-        print("Farewell,", username, ".")
+    print("A few years past and your kind of getting old of the car... ")
+    time.sleep(1)
+    sell = input("Do you still with to sell it? ")
+    time.sleep(1)
+    print()
+    if(sell == "yes"):
+      print("RIP car...")
+      return
+    elif(sell != "yes"):
+      print("Yay!!! you still have to stick with the old", car)
+    time.sleep(1)
+    print()
+    ret = input("You are now dying... Do you wish to eat rotten food for the rest of your life and live forever? or naw??? (yes/no) ")
+    print()
+    time.sleep(1)
+    if(ret == "sure"):
+      print("OK!!!")
+    time.sleep(1)
+    print()
+    print("You die.")
+    return
