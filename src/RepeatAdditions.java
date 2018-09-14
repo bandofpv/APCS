@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ReapeatAdditions {
+public class RepeatAdditions {
 	public static void main(String[] args) {
 		final int NUMBER_OF_QUESTIONS =  5; // Number of questions
 		int correctCount = 0; // Count the number of correct answers
