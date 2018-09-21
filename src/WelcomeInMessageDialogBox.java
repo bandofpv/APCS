@@ -1,4 +1,4 @@
-/*  This applicatoin program displays Welcome to Java!
+/*  This application program displays Welcome to Java!
  *  in a message dialog box
  */
 
