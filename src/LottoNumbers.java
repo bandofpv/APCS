@@ -1,17 +1,23 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class LottoNumbers {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		Scanner input = new Scanner(System.in);
+		
+		File file = new File("/Users/palycs/git/APCS/src/LottoNumbers.txt"); 
+		  
+		BufferedReader br = new BufferedReader(new FileReader(file)); 
+		  
 		boolean[] isCovered = new boolean[99]; // Default is false
 		
 		// Read each number and mark its corresponding element covered
-		int number = input.nextInt();
+		int number = Integer.valueOf(br.readLine());
 		while (number != 0) {
 			isCovered[number - 1] = true;
-			number = input.nextInt();
+			number = Integer.valueOf(br.readLine());
 		}
 		
 		// Check whether all covered
