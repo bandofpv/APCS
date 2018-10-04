@@ -21,7 +21,7 @@ public class TestPassObject {
 		System.out.println("Radius \t\tArea");
 		while (times >= 1) {
 			System.out.println(c.getRadius() + "\t\t" + c.getArea());
-			c.setRadius(c.getRadius + 1);
+			c.setRadius(c.getRadius() + 1);
 			times--;
 		}
 	}
