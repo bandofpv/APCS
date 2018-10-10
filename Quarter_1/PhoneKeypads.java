@@ -5,5 +5,10 @@ public class PhoneKeypads {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public static int getNumber(char uppercaseLetter) {
+		uppercaseLetter.replace('A', '2');
+		return uppercaseLetter;
+	}
 
 }
