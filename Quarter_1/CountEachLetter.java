@@ -24,7 +24,15 @@ public class CountEachLetter {
 	
 	/** Count each letter in the string */
 	public static int[] countLetters(String s) {
+		int[] counts = new int[26];
 		
+		for (int i = 0; i < s.length(); i++) {
+			if(Character.isLetter(s.charAt(i))) {
+				counts[s.charAt(i) - 'a']++;
+			}
+		}
+		
+		return counts;
 	}
 
 }
