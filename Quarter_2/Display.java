@@ -29,6 +29,10 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private final int DISPLAY_HEIGHT;
 	private StartButton startStop;
 	private boolean paintloop = false;
+	
+	int x1 = 22;
+	int x2 = 23;
+	int x3 = 24;
 
 
 	public Display(int width, int height) {
@@ -179,11 +183,26 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
+			
 			// nextGeneration(); // test the start button
 			if (this.getText().equals("Start")) {
+				
+				cell[36][x1].setAlive(false); // sample use of cell mutator method
+				cell[36][x2].setAlive(false); // sample use of cell mutator method
+				cell[36][x3].setAlive(false); // sample use of cell mutator method
+				
+				x1++;
+				x2++;
+				x3++;
+				
+				cell[36][x1].setAlive(true); // sample use of cell mutator method
+				cell[36][x2].setAlive(true); // sample use of cell mutator method
+				cell[36][x3].setAlive(true); // sample use of cell mutator method
+				
 				togglePaintLoop();
 				setText("Stop");
 			} else {
+			
 				togglePaintLoop();
 				setText("Start");
 			}
