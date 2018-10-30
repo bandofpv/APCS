@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -28,11 +29,14 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private final int DISPLAY_WIDTH;   
 	private final int DISPLAY_HEIGHT;
 	private StartButton startStop;
+	private StepButton Step;
 	private boolean paintloop = false;
 	
 	int y1 = 22;
 	int y2 = 23;
 	int y3 = 24;
+	
+	boolean canStep = false;
 
 
 	public Display(int width, int height) {
@@ -55,6 +59,12 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		startStop.setBounds(100, 550, 100, 36);
 		add(startStop);
 		startStop.setVisible(true);
+		repaint();
+		
+		Step = new StepButton();
+		Step.setBounds(200, 550, 100, 36);
+		add(Step);
+		Step.setVisible(true);
 		repaint();
 	}
 
@@ -80,23 +90,18 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 
 	public void moveByOne(boolean iftrue) {
 		
-		if (iftrue) {
-			cell[36][y1].setAlive(false); 
-			cell[36][y2].setAlive(false); 
-			cell[36][y3].setAlive(false); 
+		cell[36][y1].setAlive(false); 
+		cell[36][y2].setAlive(false); 
+		cell[36][y3].setAlive(false); 
 			
-			y1++;
-			y2++;
-			y3++;
+		y1++;
+		y2++;
+		y3++;
 			
-			cell[36][y1].setAlive(true); 
-			cell[36][y2].setAlive(true); 
-			cell[36][y3].setAlive(true); 
+		cell[36][y1].setAlive(true); 
+		cell[36][y2].setAlive(true); 
+		cell[36][y3].setAlive(true); 
 			
-		}
-		else {
-			
-		}
 	}
 	public void initCells() {
 		for (int row = 0; row < ROWS; row++) {
@@ -152,6 +157,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 
 	private void drawButtons() {
 		startStop.repaint();
+		Step.repaint();
 	}
 
 
@@ -205,14 +211,34 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			
 			// nextGeneration(); // test the start button
 			if (this.getText().equals("Start")) {
-				
-				moveByOne(true);
+				canStep = true;
 				togglePaintLoop();
 				setText("Stop");
-			} else {
 				
+			} else {
+				canStep = false;
 				togglePaintLoop();
 				setText("Start");
+			}
+			repaint();
+		}
+	}
+	
+	private class StepButton extends JButton implements ActionListener {
+		StepButton() {
+			super("Step");
+			addActionListener(this);
+		}
+
+		public void actionPerformed(ActionEvent arg0) {
+			
+			// nextGeneration(); // test the start button
+			if (this.getText().equals("Step") && canStep) {
+				
+				moveByOne(true);
+				
+			} else {
+				
 			}
 			repaint();
 		}
