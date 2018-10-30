@@ -30,9 +30,9 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private StartButton startStop;
 	private boolean paintloop = false;
 	
-	int x1 = 22;
-	int x2 = 23;
-	int x3 = 24;
+	int y1 = 22;
+	int y2 = 23;
+	int y3 = 24;
 
 
 	public Display(int width, int height) {
@@ -78,7 +78,26 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 
-
+	public void moveByOne(boolean iftrue) {
+		
+		if (iftrue) {
+			cell[36][y1].setAlive(false); 
+			cell[36][y2].setAlive(false); 
+			cell[36][y3].setAlive(false); 
+			
+			y1++;
+			y2++;
+			y3++;
+			
+			cell[36][y1].setAlive(true); 
+			cell[36][y2].setAlive(true); 
+			cell[36][y3].setAlive(true); 
+			
+		}
+		else {
+			
+		}
+	}
 	public void initCells() {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
@@ -187,22 +206,11 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			// nextGeneration(); // test the start button
 			if (this.getText().equals("Start")) {
 				
-				cell[36][x1].setAlive(false); // sample use of cell mutator method
-				cell[36][x2].setAlive(false); // sample use of cell mutator method
-				cell[36][x3].setAlive(false); // sample use of cell mutator method
-				
-				x1++;
-				x2++;
-				x3++;
-				
-				cell[36][x1].setAlive(true); // sample use of cell mutator method
-				cell[36][x2].setAlive(true); // sample use of cell mutator method
-				cell[36][x3].setAlive(true); // sample use of cell mutator method
-				
+				moveByOne(true);
 				togglePaintLoop();
 				setText("Stop");
 			} else {
-			
+				
 				togglePaintLoop();
 				setText("Start");
 			}
