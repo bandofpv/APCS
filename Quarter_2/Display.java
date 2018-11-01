@@ -35,8 +35,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	int y1 = 22;
 	int y2 = 23;
 	int y3 = 24;
-	
-	boolean canStep = false;
+
 
 
 	public Display(int width, int height) {
@@ -101,7 +100,6 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		cell[36][y1].setAlive(true); 
 		cell[36][y2].setAlive(true); 
 		cell[36][y3].setAlive(true); 
-			
 	}
 	public void initCells() {
 		for (int row = 0; row < ROWS; row++) {
@@ -110,9 +108,9 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			}
 		}
 		
-		cell[36][22].setAlive(true); // sample use of cell mutator method
-		cell[36][23].setAlive(true); // sample use of cell mutator method
-		cell[36][24].setAlive(true); // sample use of cell mutator method
+//		cell[36][22].setAlive(true); // sample use of cell mutator method
+//		cell[36][23].setAlive(true); // sample use of cell mutator method
+//		cell[36][24].setAlive(true); // sample use of cell mutator method
 	}
 
 
@@ -182,6 +180,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 
 
 	public void mousePressed(MouseEvent arg0) {
+		
 
 	}
 
@@ -211,16 +210,20 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			
 			// nextGeneration(); // test the start button
 			if (this.getText().equals("Start")) {
-				canStep = true;
+				
+				moveByOne(true);
+				
 				togglePaintLoop();
 				setText("Stop");
 				
 			} else {
-				canStep = false;
+				
 				togglePaintLoop();
 				setText("Start");
+			
 			}
 			repaint();
+			
 		}
 	}
 	
@@ -231,16 +234,9 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
-			
-			// nextGeneration(); // test the start button
-			if (this.getText().equals("Step") && canStep) {
-				
-				moveByOne(true);
-				
-			} else {
-				
-			}
+			moveByOne(true);
 			repaint();
 		}
 	}
 }
+
