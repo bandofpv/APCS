@@ -136,7 +136,15 @@ public class Cell {
 
 	public void calcNeighbors(Cell[][] cell) {
 
-		// You write this
+		int aliveNeighbors = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!(i == 1 && j == 1)) {
+                    aliveNeighbors += (cell[(i + myY - 1 + 80) % 80][(j + myX - 1 + 100) % 100].getAlive() ? 1 : 0);
+                }
+            }
+        }
+        myNeighbors = aliveNeighbors;
 
 	}
 

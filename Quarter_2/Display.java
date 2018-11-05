@@ -30,7 +30,10 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private final int DISPLAY_HEIGHT;
 	private StartButton startStop;
 	private StepButton Step;
+	private ClearButton Clear;
 	private boolean paintloop = false;
+	private boolean run = false;
+	public int count = 0;
 	
 	int y1 = 22;
 	int y2 = 23;
@@ -65,6 +68,12 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		add(Step);
 		Step.setVisible(true);
 		repaint();
+		
+		Clear = new ClearButton();
+		Clear.setBounds(300, 550, 100, 36);
+		add(Clear);
+		Clear.setVisible(true);
+		repaint();
 	}
 
 
@@ -86,7 +95,15 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			repaint();
 		}
 	}
-
+	
+	public void clearAll(boolean iftrue) {
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				cell[row][col].setAlive(false);
+			}
+		}
+	}
+	
 	public void moveByOne(boolean iftrue) {
 		
 		cell[36][y1].setAlive(false); 
@@ -108,9 +125,9 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			}
 		}
 		
-//		cell[36][22].setAlive(true); // sample use of cell mutator method
-//		cell[36][23].setAlive(true); // sample use of cell mutator method
-//		cell[36][24].setAlive(true); // sample use of cell mutator method
+		cell[36][22].setAlive(true); // sample use of cell mutator method
+		cell[36][23].setAlive(true); // sample use of cell mutator method
+		cell[36][24].setAlive(true); // sample use of cell mutator method
 	}
 
 
@@ -156,10 +173,29 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private void drawButtons() {
 		startStop.repaint();
 		Step.repaint();
+		Clear.repaint();
 	}
 
 
 	private void nextGeneration() {
+		 for (int row = 0; row < ROWS; row++) {
+	            for (int col = 0; col < COLS; col++) {
+	                Cell a = cell[row][col];
+	                a.calcNeighbors(cell);
+	                int aliveNeighbors = a.getNeighbors();
+	                if (a.getAlive()) {
+	                    a.setAliveNextTurn(aliveNeighbors > 1 && aliveNeighbors < 4);
+	                } else {
+	                    a.setAliveNextTurn(aliveNeighbors == 3);
+	                }
+	            }
+	        }
+	        for (int row = 0; row < ROWS; row++) {
+	            for (int col = 0; col < COLS; col++) {
+	                Cell a = cell[row][col];
+	                a.setAlive(a.getAliveNextTurn());
+	            }
+	        }
 
 	}
 
@@ -211,7 +247,6 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			// nextGeneration(); // test the start button
 			if (this.getText().equals("Start")) {
 				
-				moveByOne(true);
 				
 				togglePaintLoop();
 				setText("Stop");
@@ -233,10 +268,54 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			addActionListener(this);
 		}
 
-		public void actionPerformed(ActionEvent arg0) {
-			moveByOne(true);
+		public void actionPerformed(ActionEvent arg1) {
+			while(count == 0) {
+				 for (int row = 0; row < ROWS; row++) {
+			            for (int col = 0; col < COLS; col++) {
+			                Cell a = cell[row][col];
+			                a.calcNeighbors(cell);
+			                int aliveNeighbors = a.getNeighbors();
+			                if (a.getAlive()) {
+			                    a.setAliveNextTurn(aliveNeighbors > 1 && aliveNeighbors < 4);
+			                } else {
+			                    a.setAliveNextTurn(aliveNeighbors == 3);
+			                }
+			            }
+			        }
+			        for (int row = 0; row < ROWS; row++) {
+			            for (int col = 0; col < COLS; col++) {
+			                Cell a = cell[row][col];
+			                a.setAlive(a.getAliveNextTurn());
+			            }
+			        }
+			        count++;
+			}
+			count = 0;
 			repaint();
 		}
 	}
+	
+	private class ClearButton extends JButton implements ActionListener {
+		ClearButton() {
+			super("Clear");
+			addActionListener(this);
+		}
+
+		public void actionPerformed(ActionEvent arg2) {
+			
+			// nextGeneration(); // test the start button
+			if (this.getText().equals("Clear")) {
+				
+				clearAll(true);
+				
+				togglePaintLoop();
+				setText("Clear");
+				
+			}
+			repaint();
+			
+		}
+	}
+	
 }
 
