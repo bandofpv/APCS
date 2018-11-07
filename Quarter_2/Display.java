@@ -31,9 +31,10 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private StartButton startStop;
 	private StepButton Step;
 	private ClearButton Clear;
+	private QuitButton Quit;
+	private PresetButton Preset;
 	private boolean paintloop = false;
-	private boolean run = false;
-	public int count = 0;
+	private boolean stepOne = false;
 	
 	int y1 = 22;
 	int y2 = 23;
@@ -69,10 +70,22 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		Step.setVisible(true);
 		repaint();
 		
+		Preset = new PresetButton();
+		Preset.setBounds(300, 550, 100, 36);
+		add(Preset);
+		Preset.setVisible(true);
+		repaint();
+		
 		Clear = new ClearButton();
-		Clear.setBounds(300, 550, 100, 36);
+		Clear.setBounds(400, 550, 100, 36);
 		add(Clear);
 		Clear.setVisible(true);
+		repaint();
+		
+		Quit = new QuitButton();
+		Quit.setBounds(500, 550, 100, 36);
+		add(Quit);
+		Quit.setVisible(true);
 		repaint();
 	}
 
@@ -93,10 +106,15 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			}
 			nextGeneration();
 			repaint();
+			
+			if(stepOne) {
+				togglePaintLoop();
+				stepOne = false;
+			}
 		}
 	}
 	
-	public void clearAll(boolean iftrue) {
+	public void clearAll() {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				cell[row][col].setAlive(false);
@@ -118,6 +136,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		cell[36][y2].setAlive(true); 
 		cell[36][y3].setAlive(true); 
 	}
+	
 	public void initCells() {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
@@ -125,9 +144,11 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			}
 		}
 		
-		cell[36][22].setAlive(true); // sample use of cell mutator method
-		cell[36][23].setAlive(true); // sample use of cell mutator method
-		cell[36][24].setAlive(true); // sample use of cell mutator method
+		cell[36][24].setAlive(true, Color.RED); 
+		cell[36][25].setAlive(true, Color.RED); 
+		cell[36][26].setAlive(true, Color.RED); 
+		cell[34][25].setAlive(true, Color.RED);
+		cell[35][26].setAlive(true, Color.RED);
 	}
 
 
@@ -174,6 +195,8 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		startStop.repaint();
 		Step.repaint();
 		Clear.repaint();
+		Quit.repaint();
+		Preset.repaint();
 	}
 
 
@@ -182,6 +205,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	            for (int col = 0; col < COLS; col++) {
 	                Cell a = cell[row][col];
 	                a.calcNeighbors(cell);
+	                a.setColor(Color.RED);
 	                int aliveNeighbors = a.getNeighbors();
 	                if (a.getAlive()) {
 	                    a.setAliveNextTurn(aliveNeighbors > 1 && aliveNeighbors < 4);
@@ -193,6 +217,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	        for (int row = 0; row < ROWS; row++) {
 	            for (int col = 0; col < COLS; col++) {
 	                Cell a = cell[row][col];
+	                a.setColor(Color.RED);
 	                a.setAlive(a.getAliveNextTurn());
 	            }
 	        }
@@ -200,8 +225,17 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	}
 
 
-	public void mouseClicked(MouseEvent arg0) {
-
+	public void mouseClicked(MouseEvent arg4) {
+		int x = (arg4.getX() - X_GRID_OFFSET - 1) / (CELL_WIDTH + 1);
+		int y = (arg4.getY() - Y_GRID_OFFSET - 4) / (CELL_HEIGHT + 1);
+		try {
+			Cell drawNewCell = cell[y][x];
+			drawNewCell.setAlive(!drawNewCell.getAlive(), Color.RED);
+			repaint();
+		}
+		catch (Exception e){
+			
+		}
 	}
 
 
@@ -226,8 +260,17 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	}
 
 
-	public void mouseDragged(MouseEvent arg0) {
-
+	public void mouseDragged(MouseEvent arg5) {
+		int x = (arg5.getX() - X_GRID_OFFSET - 1) / (CELL_WIDTH + 1);
+		int y = (arg5.getY() - Y_GRID_OFFSET - 4) / (CELL_HEIGHT + 1);
+		try {
+			Cell drawNewCell = cell[y][x];
+			drawNewCell.setAlive(!drawNewCell.getAlive(), Color.RED);
+			repaint();
+		}
+		catch (Exception e){
+			
+		}
 	}
 
 
@@ -246,7 +289,6 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			
 			// nextGeneration(); // test the start button
 			if (this.getText().equals("Start")) {
-				
 				
 				togglePaintLoop();
 				setText("Stop");
@@ -269,29 +311,69 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 
 		public void actionPerformed(ActionEvent arg1) {
-			while(count == 0) {
-				 for (int row = 0; row < ROWS; row++) {
-			            for (int col = 0; col < COLS; col++) {
-			                Cell a = cell[row][col];
-			                a.calcNeighbors(cell);
-			                int aliveNeighbors = a.getNeighbors();
-			                if (a.getAlive()) {
-			                    a.setAliveNextTurn(aliveNeighbors > 1 && aliveNeighbors < 4);
-			                } else {
-			                    a.setAliveNextTurn(aliveNeighbors == 3);
-			                }
-			            }
-			        }
-			        for (int row = 0; row < ROWS; row++) {
-			            for (int col = 0; col < COLS; col++) {
-			                Cell a = cell[row][col];
-			                a.setAlive(a.getAliveNextTurn());
-			            }
-			        }
-			        count++;
-			}
-			count = 0;
+			togglePaintLoop();
+			stepOne = true;
 			repaint();
+		}
+	}
+	
+	private class PresetButton extends JButton implements ActionListener {
+		PresetButton() {
+			super("Still");
+			addActionListener(this);
+		}
+
+		public void actionPerformed(ActionEvent arg6) {
+			
+			if (this.getText().equals("Still")) {
+				
+				clearAll();
+				
+				cell[36][24].setAlive(true); 
+				cell[36][25].setAlive(true); 
+				cell[37][24].setAlive(true); 
+				cell[37][25].setAlive(true);
+				
+				setText("Insane");
+				togglePaintLoop();
+				repaint();
+			}
+			
+			else if (this.getText().equals("Insane")) {
+				
+				clearAll();
+				
+				try {
+					for (int x = 0; x <= 100; x++) {
+						cell[36][x].setAlive(true);
+					}
+					repaint();
+				}
+				catch (Exception e){
+					
+				}
+				
+				setText("Default");
+				togglePaintLoop();
+				repaint();
+			}
+			
+			else if (this.getText().equals("Default")) {
+				
+				clearAll();
+								
+				cell[36][24].setAlive(true); 
+				cell[36][25].setAlive(true); 
+				cell[36][26].setAlive(true); 
+				cell[34][25].setAlive(true);
+				cell[35][26].setAlive(true);
+				
+				setText("Still");
+				togglePaintLoop();
+				repaint();
+			}
+			repaint();
+			
 		}
 	}
 	
@@ -306,7 +388,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			// nextGeneration(); // test the start button
 			if (this.getText().equals("Clear")) {
 				
-				clearAll(true);
+				clearAll();
 				
 				togglePaintLoop();
 				setText("Clear");
@@ -317,5 +399,45 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
+	private class QuitButton extends JButton implements ActionListener {
+		QuitButton() {
+			super("Quit");
+			addActionListener(this);
+		}
+
+		public void actionPerformed(ActionEvent arg3) {
+			
+			// nextGeneration(); // test the start button
+			if (this.getText().equals("Quit")) {
+				
+				System.exit(0);
+				
+				togglePaintLoop();
+				setText("Quit");
+				
+			}
+			repaint();
+			
+		}
+	}
+	
 }
+
+// default color change!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
