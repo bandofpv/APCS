@@ -16,7 +16,7 @@ public class Cell {
 
 	private Color myColor; // Based on alive/dead rules
 
-	private final Color DEFAULT_ALIVE = Color.ORANGE;
+	private Color DEFAULT_ALIVE = Color.RED;
 
 	private final Color DEFAULT_DEAD = Color.GRAY;
 
@@ -146,6 +146,10 @@ public class Cell {
         }
         myNeighbors = aliveNeighbors;
 
+	}
+	
+	public void calcNeighborsNoWrap(Cell[][] cell) {
+		
 	}
 
 

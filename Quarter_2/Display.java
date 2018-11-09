@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
@@ -39,7 +40,6 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	int y1 = 22;
 	int y2 = 23;
 	int y3 = 24;
-
 
 
 	public Display(int width, int height) {
@@ -144,11 +144,11 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			}
 		}
 		
-		cell[36][24].setAlive(true, Color.RED); 
-		cell[36][25].setAlive(true, Color.RED); 
-		cell[36][26].setAlive(true, Color.RED); 
-		cell[34][25].setAlive(true, Color.RED);
-		cell[35][26].setAlive(true, Color.RED);
+		cell[36][24].setAlive(true); 
+		cell[36][25].setAlive(true); 
+		cell[36][26].setAlive(true); 
+		cell[34][25].setAlive(true);
+		cell[35][26].setAlive(true);
 	}
 
 
@@ -205,7 +205,6 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	            for (int col = 0; col < COLS; col++) {
 	                Cell a = cell[row][col];
 	                a.calcNeighbors(cell);
-	                a.setColor(Color.RED);
 	                int aliveNeighbors = a.getNeighbors();
 	                if (a.getAlive()) {
 	                    a.setAliveNextTurn(aliveNeighbors > 1 && aliveNeighbors < 4);
@@ -217,7 +216,6 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	        for (int row = 0; row < ROWS; row++) {
 	            for (int col = 0; col < COLS; col++) {
 	                Cell a = cell[row][col];
-	                a.setColor(Color.RED);
 	                a.setAlive(a.getAliveNextTurn());
 	            }
 	        }
@@ -230,7 +228,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		int y = (arg4.getY() - Y_GRID_OFFSET - 4) / (CELL_HEIGHT + 1);
 		try {
 			Cell drawNewCell = cell[y][x];
-			drawNewCell.setAlive(!drawNewCell.getAlive(), Color.RED);
+			drawNewCell.setAlive(!drawNewCell.getAlive());
 			repaint();
 		}
 		catch (Exception e){
@@ -334,6 +332,57 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 				cell[37][24].setAlive(true); 
 				cell[37][25].setAlive(true);
 				
+				cell[41][24].setAlive(true); 
+				cell[41][25].setAlive(true); 
+				cell[42][24].setAlive(true); 
+				cell[42][25].setAlive(true);
+				
+				cell[40][30].setAlive(true); 
+				cell[41][29].setAlive(true); 
+				cell[41][31].setAlive(true); 
+				cell[42][29].setAlive(true);
+				cell[42][31].setAlive(true); 
+				cell[43][30].setAlive(true); 
+				
+				cell[35][30].setAlive(true); 
+				cell[36][29].setAlive(true); 
+				cell[36][31].setAlive(true); 
+				cell[37][29].setAlive(true);
+				cell[37][31].setAlive(true); 
+				cell[38][30].setAlive(true); 
+				
+				setText("Stuff");
+				togglePaintLoop();
+				repaint();
+			}
+			
+			else if (this.getText().equals("Stuff")) {
+				
+				clearAll();
+				
+				cell[35][30].setAlive(true); 
+				cell[35][31].setAlive(true); 
+				cell[33][31].setAlive(true); 
+				cell[34][33].setAlive(true); 
+				cell[35][34].setAlive(true); 
+				cell[35][35].setAlive(true); 
+				cell[35][36].setAlive(true); 
+				
+				setText("Random");
+				togglePaintLoop();
+				repaint();
+			}
+			
+			else if (this.getText().equals("Random")) {
+				
+				clearAll();
+				
+				Random rand = new Random(); 
+				
+				for (int i = 0; i <= 3000; i++) {
+					cell[rand.nextInt(80)][rand.nextInt(100)].setAlive(true);
+				}
+				
 				setText("Insane");
 				togglePaintLoop();
 				repaint();
@@ -422,22 +471,3 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	}
 	
 }
-
-// default color change!!!!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
