@@ -31,11 +31,13 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private final int DISPLAY_HEIGHT;
 	private StartButton startStop;
 	private StepButton Step;
+	private WrapButton Wrap;
 	private ClearButton Clear;
 	private QuitButton Quit;
 	private PresetButton Preset;
 	private boolean paintloop = false;
 	private boolean stepOne = false;
+	private boolean wrap = true;
 	
 	int y1 = 22;
 	int y2 = 23;
@@ -70,20 +72,26 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		Step.setVisible(true);
 		repaint();
 		
+		Wrap = new WrapButton();
+		Wrap.setBounds(300, 550, 100, 36);
+		add(Wrap);
+		Wrap.setVisible(true);
+		repaint();
+		
 		Preset = new PresetButton();
-		Preset.setBounds(300, 550, 100, 36);
+		Preset.setBounds(400, 550, 100, 36);
 		add(Preset);
 		Preset.setVisible(true);
 		repaint();
 		
 		Clear = new ClearButton();
-		Clear.setBounds(400, 550, 100, 36);
+		Clear.setBounds(500, 550, 100, 36);
 		add(Clear);
 		Clear.setVisible(true);
 		repaint();
 		
 		Quit = new QuitButton();
-		Quit.setBounds(500, 550, 100, 36);
+		Quit.setBounds(600, 550, 100, 36);
 		add(Quit);
 		Quit.setVisible(true);
 		repaint();
@@ -197,6 +205,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		Clear.repaint();
 		Quit.repaint();
 		Preset.repaint();
+		Wrap.repaint();
 	}
 
 
@@ -204,7 +213,11 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		 for (int row = 0; row < ROWS; row++) {
 	            for (int col = 0; col < COLS; col++) {
 	                Cell a = cell[row][col];
-	                a.calcNeighbors(cell);
+	                if (wrap) {
+	                	a.calcNeighbors(cell);
+	                } else {
+	                	a.calcNeighborsNoWrap(cell);
+	                }
 	                int aliveNeighbors = a.getNeighbors();
 	                if (a.getAlive()) {
 	                    a.setAliveNextTurn(aliveNeighbors > 1 && aliveNeighbors < 4);
@@ -312,6 +325,28 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			togglePaintLoop();
 			stepOne = true;
 			repaint();
+		}
+	}
+	
+	private class WrapButton extends JButton implements ActionListener {
+		WrapButton() {
+			super("No Wrap");
+			addActionListener(this);
+		}
+
+		public void actionPerformed(ActionEvent arg7) {
+			if (this.getText().equals("No Wrap")) {
+				wrap = false;
+				
+				
+				setText("Wrap");
+			}
+			else {
+				wrap = true;
+				
+				
+				setText("No Wrap");
+			}
 		}
 	}
 	

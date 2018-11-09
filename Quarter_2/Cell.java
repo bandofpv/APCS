@@ -135,7 +135,6 @@ public class Cell {
 
 
 	public void calcNeighbors(Cell[][] cell) {
-
 		int aliveNeighbors = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -149,7 +148,22 @@ public class Cell {
 	}
 	
 	public void calcNeighborsNoWrap(Cell[][] cell) {
+
+		int aliveNeighbors = 0;
 		
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+            	int row = myY - i + 1;
+            	int col = myX - j + 1;
+            	if(row < cell.length && row > 0 && col > 0 && col < cell[row].length) {
+       			 if(cell[row][col].getAlive() && (j != 1 || i != 1)) {
+       				 aliveNeighbors++;
+       			 }
+       		 }
+            }
+        }
+        
+        myNeighbors = aliveNeighbors;
 	}
 
 
