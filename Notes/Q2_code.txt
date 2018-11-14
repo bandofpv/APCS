@@ -15,8 +15,8 @@ public class LifeMap {
     }
 
     public int setcell(x, y, v) {
-
-        cell = v;
+    
+    map[x][y] = v;
 
     }
 
@@ -44,8 +44,8 @@ public class LifeCell {
     }
 
     public int setcell(x, y, v) {
-
-        map[x][y] = v;
+    
+    cell = v;
 
     }
 
