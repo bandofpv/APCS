@@ -1,0 +1,52 @@
+Implementation 1
+----------------
+
+Allocates a map object that contains 80 x 100 array of pixel values.
+
+
+public class LifeMap {
+
+    private map[][] = int[80][100];
+
+    public int getcell(x, y) {
+
+        return map[x][y];
+
+    }
+
+    public int setcell(x, y, v) {
+
+        cell = v;
+
+    }
+
+
+}
+
+
+Implementation 2
+----------------
+Builds 80 x 100 array of LifeCell objects.
+
+
+map[][] = LifeCell[80][100];
+
+
+public class LifeCell {
+
+    private cell = 0;
+
+
+    public int getcell() {
+
+        Return cell;
+
+    }
+
+    public int setcell(x, y, v) {
+
+        map[x][y] = v;
+
+    }
+
+}
