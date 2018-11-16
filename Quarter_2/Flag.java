@@ -122,11 +122,18 @@ public class Flag extends JApplet {
 		g.setColor(Color.WHITE);
 		
 		double[] starX = {0, 0.197, 0.81, 0.314, 0.51, 0, -0.51, -0.314, -0.81, -0.197};
-		double[] starYTips = {-0.85, -0.26, -0.26, 0.093, 0.68, 0.3168, 0.68, 0.093, -0.26, -0.26};
+		double[] starY = {-0.85, -0.26, -0.26, 0.093, 0.68, 0.3168, 0.68, 0.093, -0.26, -0.26};
 		
 		int[] scaleStarX = new int[starX.length];
 		for (int i = 0; i < starX.length; i++) {
-			scaleStarX[i] = (int)(x + )
+			scaleStarX[i] = (int)(x + starX[i] * (0.5 /0.85) * K * flag_height);
 		}
+		
+		int[] scaleStarY = new int[starX\Y.length];
+		for (int i = 0; i < starY.length; i++) {
+			scaleStarY[i] = (int)(y + starY[i] * (0.5 /0.85) * K * flag_height);
+		}
+		
+		g.fillPolygon(scaledStarX, scaledStarY, scaledStarY.length);
 	}
 } 
