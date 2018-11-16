@@ -116,7 +116,18 @@ public class Flag extends JApplet {
 	}
 
 	public void drawStars(Graphics g) {
-		
+		for (int i = 0; i < 9; i++){
+			if (i % 2 == 0) {
+				for (int j = 0; j < 6; j++){
+					drawStar(g, (int)((G + H * 2 * j) * flag_height), (int)((E + F *i) * flag_height));
+				}
+			}
+			else {
+				for (int j = 0; j < 5; j++) {
+					drawStar(g, (int)((G + H + (H * 2) * j) * flag_height), (int)((E + F * i) * flag_height));
+				}
+			}
+		}
 	}
 	public void drawStar(Graphics g, int x, int y) {
 		g.setColor(Color.WHITE);
