@@ -101,11 +101,11 @@ public class Flag extends JApplet {
 		for(int i = 0; i < STRIPES; i++) {
 			for(int s = 0; s <= STRIPES; s += 2) {
 				g.setColor(Color.decode("0xE0162B"));
-				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(stripe_height));
+				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(Math.round(stripe_height)));
 			}
 			for(int s = 1; s < STRIPES; s += 2) {
 				g.setColor(Color.WHITE);
-				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(stripe_height));
+				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(Math.round(stripe_height)));
 			}
 		}
 	}
