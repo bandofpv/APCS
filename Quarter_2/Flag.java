@@ -9,6 +9,12 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.Path2D;
+import java.awt.* ;
+import javax.swing.* ;
+import java.awt.geom.* ; //  Classes GeneralPath etc.
 
 import javax.swing.JApplet;
 
@@ -38,12 +44,12 @@ public class Flag extends JApplet {
     // You will need to set values for these in paint()
 	private double flag_width;   // width of flag in pixels
 	private double flag_height;  // height of flag in pixels
-	private double stripe_height = L * 400; // height of an individual stripe in pixels
-	private double field_width = D * 400;
-	private double field_height = C * 400; 
+	private double stripe_height;
+	private double field_width;
+	private double field_height; 
+	private double star_radius;
 	
 	
-
     // init() will automatically be called when an applet is run
 	public void init() {
 		// Choice of width = 1.9 * height to start off
@@ -54,6 +60,9 @@ public class Flag extends JApplet {
 
     // paint() will be called every time a resizing of an applet occurs
 	public void paint(Graphics g) {
+	   Graphics2D graphics2D = (Graphics2D) g;
+       graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 		if (getHeight() * B > getWidth()) {
 			flag_width = getWidth();
 			flag_height = flag_width / B;
@@ -64,9 +73,17 @@ public class Flag extends JApplet {
 			
 		}
 		
+		stripe_height = L * flag_height;
+		field_width = D * flag_height;
+		field_height = C * flag_height; 
+		
+		
+
 		drawBackground(g);
-		//drawStripes(g);
-		//drawField(g);
+		drawStripes(g);
+		drawField(g);
+		drawStars(g);
+		
 		
 	}
 
@@ -74,13 +91,21 @@ public class Flag extends JApplet {
 		
 		g.setColor(Color.decode("0xFFFFFF"));
 		g.fillRect(0,0, (int)(flag_width), (int)(flag_height));
+		
+		g.setColor(Color.decode("0xEEEEEE"));
+		g.fillRect(0,0, (int)(getWidth()), (int)(getHeight()));
+
 	}
 	
 	public void drawStripes(Graphics g) {
 		for(int i = 0; i < STRIPES; i++) {
 			for(int s = 0; s <= STRIPES; s += 2) {
 				g.setColor(Color.decode("0xE0162B"));
-				g.fillRect(0, (int)(stripe_height * s), 760,(int)(stripe_height));
+				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(stripe_height));
+			}
+			for(int s = 1; s < STRIPES; s += 2) {
+				g.setColor(Color.WHITE);
+				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(stripe_height));
 			}
 		}
 	}
@@ -91,6 +116,17 @@ public class Flag extends JApplet {
 	}
 
 	public void drawStars(Graphics g) {
+		
 	}
-}
- 
+	public void drawStar(Graphics g, int x, int y) {
+		g.setColor(Color.WHITE);
+		
+		double[] starX = {0, 0.197, 0.81, 0.314, 0.51, 0, -0.51, -0.314, -0.81, -0.197};
+		double[] starYTips = {-0.85, -0.26, -0.26, 0.093, 0.68, 0.3168, 0.68, 0.093, -0.26, -0.26};
+		
+		int[] scaleStarX = new int[starX.length];
+		for (int i = 0; i < starX.length; i++) {
+			scaleStarX[i] = (int)(x + )
+		}
+	}
+} 
