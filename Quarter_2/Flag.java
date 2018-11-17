@@ -140,11 +140,11 @@ public class Flag extends JApplet {
 			scaleStarX[i] = (int)(x + starX[i] * (0.5 /0.85) * K * flag_height);
 		}
 		
-		int[] scaleStarY = new int[starX\Y.length];
+		int[] scaleStarY = new int[starY.length];
 		for (int i = 0; i < starY.length; i++) {
 			scaleStarY[i] = (int)(y + starY[i] * (0.5 /0.85) * K * flag_height);
 		}
 		
-		g.fillPolygon(scaledStarX, scaledStarY, scaledStarY.length);
+		g.fillPolygon(scaleStarX, scaleStarY, scaleStarY.length);
 	}
 } 
