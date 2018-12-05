@@ -109,7 +109,8 @@ public class Convex_Hull extends JPanel {
         } while (p != l);  // While we don't come to first  
                            // point 
 
-     // Creating a File object that represents the disk file. 
+        // Creating a File object that represents the disk file. 
+        //NOTE: here is where you have to indicate the full file path to your ret.txt file
         PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
         
         // Store current System.out before assigning a new value 
@@ -153,6 +154,7 @@ public class Convex_Hull extends JPanel {
 	    //  separate x and y arrays
 
 	    try (
+	    	//NOTE: here is where you have to indicate the full file path to your input.txt file
 	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
@@ -175,6 +177,7 @@ public class Convex_Hull extends JPanel {
         int [] yy = new int[newnumcoords];  //  how many coords are in file
 	    
 	    try (
+	    		//NOTE: here is where you have to indicate the full file path to your input.txt file
 		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
 		        ) {
 		        int i = 0;
@@ -222,6 +225,7 @@ public class Convex_Hull extends JPanel {
 	    //  separate x and y arrays
 
 	    try (
+	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
 	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
@@ -243,6 +247,7 @@ public class Convex_Hull extends JPanel {
         int [] retyy = new int[numcoords];  //  how many coords are in file
         
 	    try (
+	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
 	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        int i = 0;
@@ -308,10 +313,10 @@ public class Convex_Hull extends JPanel {
     	 for (int i = 0; i < newnumcoords -1; i++) {
     		 int a = i+1;
     		 
-    		 g.fillOval(getrealx(inputxx[i]) - 5, getrealy(inputyy[i]) - 5, 10, 10);
+    		 g.fillOval(getrealx(inputxx[i]) - 4, getrealy(inputyy[i]) - 5, 10, 10);
     	 }
     	 
-    	 g.fillOval(getrealx(inputxx[newnumcoords-1]) - 5, getrealy(inputyy[newnumcoords-1]) - 5, 10, 10);
+    	 g.fillOval(getrealx(inputxx[newnumcoords-1]) - 4, getrealy(inputyy[newnumcoords-1]) - 4, 10, 10);
     	 
     	 g.drawString(inputxx[newnumcoords -1] + ", " + inputyy[newnumcoords -1],getrealx(inputxx[newnumcoords -1]),getrealy(inputyy[newnumcoords -1]));
     	 
