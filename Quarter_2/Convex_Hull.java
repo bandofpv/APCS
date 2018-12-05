@@ -1,9 +1,17 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JApplet;
 import java.util.Vector;
 import java.awt.*;
 import javax.swing.*;
+
+//needed for reading coords file
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Scanner;
 
 class Point 
 { 
@@ -17,6 +25,11 @@ class Point
 } 
   
 public class Convex_Hull extends JPanel { 
+	
+	public static int [] finalxx = new int[10];
+	public static int [] finalyy = new int[10];
+	
+	public static int numcoords = 0;
 	
 	private final int X_GRID_OFFSET = 25; // 25 pixels from left
 	private final int Y_GRID_OFFSET = 40; // 40 pixels from top
@@ -42,7 +55,7 @@ public class Convex_Hull extends JPanel {
     } 
       
     // Prints convex hull of a set of n points. 
-    public static void convexHull(Point points[], int n) 
+    public static void convexHull(Point points[], int n) throws FileNotFoundException
     { 
     	
     	int[] x = new int[7];
@@ -92,32 +105,103 @@ public class Convex_Hull extends JPanel {
         } while (p != l);  // While we don't come to first  
                            // point 
 
+     // Creating a File object that represents the disk file. 
+        PrintStream o = new PrintStream(new File("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
         
+        // Store current System.out before assigning a new value 
+        PrintStream console = System.out; 
+  
+        // Assign o to output stream 
+        System.setOut(o); 
+       
         // Print Result 
         for (Point temp : hull) 
+            System.out.println(temp.x + ", " + temp.y); 
+        
+        System.setOut(console); 
 
-        	xs += Integer.toString(temp.x);
-        
-        // Print Result 
-        for (Point temp : hull) 
-        	ys += Integer.toString(temp.y);
         
     }
     
-    public static void main(String[] args) {
-		Point points[] = new Point[9]; 
-	    points[0]=new Point(5, 5); 
-	    points[1]=new Point(10, -10); 
-	    points[2]=new Point(-5, -5); 
-	    points[3]=new Point(10, 10); 
-	    points[4]=new Point(7, -7); 
-	    points[5]=new Point(-10, 10); 
-	    points[6]=new Point(-3, 3); 
-	    points[7]=new Point(-10, -10);
-	    points[8]=new Point(10, -10);
+    public static int getrealx(int xcoord) {
+    	if (xcoord < 0) {
+    		return -(Math.abs(xcoord) * 2) + 100;
+    	}
+    	else if (xcoord > 0) {
+    		return (Math.abs(xcoord) * 2) + 100;
+    	}
+    	return 100;
+    }
+    
+    public static int getrealy(int ycoord) {
+    	if (ycoord < 0) {
+    		return (Math.abs(ycoord) * 2) + 100;
+    	}
+    	else if (ycoord > 0) {
+    		return -(Math.abs(ycoord) * 2) + 100;
+    	}
+    	return 100;
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException {
+    	
+    	//  the following code will attempt to read in x,y coordinate values into
+	    //  separate x and y arrays
+	    int newnumcoords = 0;
+
+	    try (
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/newdata.txt")));
+	        ) {
+	        while(sc.hasNextLine()) {
+	            //  this file read pass gets total number of coordinates
+	            String[] l2 = sc.nextLine().split(",");
+	            if (l2.length > 1) {
+	               //  without this check, blank lines will throw an exception
+	               newnumcoords++;
+	            }
+	        }
+	    }
+	    catch(Exception e) {
+	        System.out.println("Problem reading coordinates from newdata.txt file");
+	        //  e.printStackTrace();
+	    }
+	    
+	    System.out.println("newdata.txt file contains " + newnumcoords + " coordinate sets");
+	    
+        int [] xx = new int[newnumcoords];  //  allocate array, we know
+        int [] yy = new int[newnumcoords];  //  how many coords are in file
+	    
+	    try (
+		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/newdata.txt")));
+		        ) {
+		        int i = 0;
+
+		        while(sc.hasNextLine()) {
+		        //  String line = sc.nextLine();
+
+		            String[] line = sc.nextLine().split(",");
+		            if (line.length > 1) {
+		               //  without this check, blank lines will throw an exception
+		               xx[i] = Integer.parseInt(line[0].trim());
+		               yy[i] = Integer.parseInt(line[1].trim());
+		               i++;
+		            }
+		        }
+		       System.out.println("x: " + Arrays.toString(xx));
+		       System.out.println("y: " + Arrays.toString(yy));
+
+		    }
+		    catch(Exception e) {
+		       System.out.println("Problem reading coordinates from newdata.txt file");
+		       //  e.printStackTrace();
+		    }
+	    
+		Point points[] = new Point[xx.length]; 
+		for (int i = 0; i < xx.length; i++) {
+	    	points[i] = new Point(xx[i], yy[i]);
+	    }
 	    
 
-	    
 	    int n = points.length; 
 	        
 	    convexHull(points, n);
@@ -129,28 +213,95 @@ public class Convex_Hull extends JPanel {
 	    JFrame frame = new JFrame("Simple Window");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setBackground(Color.white);
-	    frame.setSize(800, 700);
-	 
+	    frame.setSize(200, 200);
+
+	    //  the following code will attempt to read in x,y coordinate values into
+	    //  separate x and y arrays
+
+	    try (
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        ) {
+	        while(sc.hasNextLine()) {
+	            //  this file read pass gets total number of coordinates
+	            String[] l1 = sc.nextLine().split(",");
+	            if (l1.length > 1) {
+	               //  without this check, blank lines will throw an exception
+	               numcoords++;
+	            }
+	        }
+	    }
+	    catch(Exception e) {
+	        System.out.println("Problem reading coordinates from ret.txt file");
+	        //  e.printStackTrace();
+	    }
+	    System.out.println("ret.txt file contains " + numcoords + " coordinate sets");
+	    
+        int [] retxx = new int[numcoords];  //  allocate array, we know
+        int [] retyy = new int[numcoords];  //  how many coords are in file
+        
+	    try (
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        ) {
+	        int i = 0;
+
+	        while(sc.hasNextLine()) {
+	        //  String line = sc.nextLine();
+
+	            String[] line = sc.nextLine().split(",");
+	            if (line.length > 1) {
+	               //  without this check, blank lines will throw an exception
+	               retxx[i] = Integer.parseInt(line[0].trim());
+	               retyy[i] = Integer.parseInt(line[1].trim());
+	               i++;
+	            }
+	        }
+	       System.out.println("x: " + Arrays.toString(retxx));
+	       System.out.println("y: " + Arrays.toString(retyy));
+
+	    }
+	    catch(Exception e) {
+	       System.out.println("Problem reading coordinates from ret.txt file");
+	       //  e.printStackTrace();
+	    }
+
+	    //  this launches the window display
+	    //  TO DO: replace the static lines/text coordinates with your
+//	             point cloud and Convex Hull line segment solution
+	    
 	    Convex_Hull panel = new Convex_Hull();
 	 
 	    frame.add(panel);
 	 
 	    frame.setVisible(true);
+	    
+	    finalxx = retxx; 
+		finalyy = retyy;
+		
+		for (int i = 0; i < 4; i++) {
+			System.out.println(getrealx(finalxx[i]));
+			System.out.println(getrealy(finalyy[i]));
+		}
+		
+//		0, 3
+//		2, 3
+//		1, 1
+//		2, 1
+//		3, 0
+//		0, 0
+//		3, 3
 	  }
     
-    public double
   
     public void paintComponent(Graphics g) {
-	 
-	     //  box side lines
-	     g.setColor(Color.black);
-	     g.drawLine((xs.charAt(0) - X_GRID_OFFSET - 1) / (CELL_WIDTH + 1),ys.charAt(0) + 120, xs.charAt(1) + 120, ys.charAt(1) + 20);
-	     g.drawLine(xs.charAt(1) + 120,ys.charAt(1) + 20, xs.charAt(2) + 20, ys.charAt(2) + 20);
-	     g.drawLine(xs.charAt(2) + 20,ys.charAt(2) + 20, xs.charAt(3) + 20, ys.charAt(3) + 120);
-	     g.drawLine(xs.charAt(3) + 20,ys.charAt(3) + 120, xs.charAt(0) + 120, ys.charAt(0) + 120);
-	     
-	     int x = (arg4.getX() - X_GRID_OFFSET - 1) / (CELL_WIDTH + 1);
-			int y = (arg4.getY() - Y_GRID_OFFSET - 4) / (CELL_HEIGHT + 1);
+    	 g.setColor(Color.black);
+    	 for (int i = 0; i < numcoords -1; i++) {
+    		 int a = i+1;
+    		 
+    		 g.drawLine(getrealx(finalxx[i]), getrealy(finalyy[i]), getrealx(finalxx[a]), getrealy(finalyy[a]));
+    	 }
+    	 
+    	 g.drawOval(100, 100, 1, 1);
+    	 g.drawLine(getrealx(finalxx[numcoords-1]), getrealy(finalyy[numcoords-1]), getrealx(finalxx[0]), getrealy(finalyy[0]));
 	
 	     //  text identifiers
 	     g.drawString("10,-10",120,120);
@@ -158,6 +309,5 @@ public class Convex_Hull extends JPanel {
 	     g.drawString("-10,10", 20, 20);
 	     g.drawString("-10,10", 20,120);
 	  }
-	
 
 } 
