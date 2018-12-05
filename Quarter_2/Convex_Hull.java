@@ -29,6 +29,10 @@ public class Convex_Hull extends JPanel {
 	public static int [] finalxx = new int[10];
 	public static int [] finalyy = new int[10];
 	
+	public static int [] inputxx = new int[10];
+	public static int [] inputyy = new int[10];
+	
+	public static int newnumcoords = 0;
 	public static int numcoords = 0;
 	
 	private final int X_GRID_OFFSET = 25; // 25 pixels from left
@@ -106,7 +110,7 @@ public class Convex_Hull extends JPanel {
                            // point 
 
      // Creating a File object that represents the disk file. 
-        PrintStream o = new PrintStream(new File("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
+        PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
         
         // Store current System.out before assigning a new value 
         PrintStream console = System.out; 
@@ -125,20 +129,20 @@ public class Convex_Hull extends JPanel {
     
     public static int getrealx(int xcoord) {
     	if (xcoord < 0) {
-    		return -(Math.abs(xcoord) * 2) + 100;
+    		return -(Math.abs(xcoord) * 4) + 100;
     	}
     	else if (xcoord > 0) {
-    		return (Math.abs(xcoord) * 2) + 100;
+    		return (Math.abs(xcoord) * 4) + 100;
     	}
     	return 100;
     }
     
     public static int getrealy(int ycoord) {
     	if (ycoord < 0) {
-    		return (Math.abs(ycoord) * 2) + 100;
+    		return (Math.abs(ycoord) * 4) + 100;
     	}
     	else if (ycoord > 0) {
-    		return -(Math.abs(ycoord) * 2) + 100;
+    		return -(Math.abs(ycoord) * 4) + 100;
     	}
     	return 100;
     }
@@ -147,10 +151,9 @@ public class Convex_Hull extends JPanel {
     	
     	//  the following code will attempt to read in x,y coordinate values into
 	    //  separate x and y arrays
-	    int newnumcoords = 0;
 
 	    try (
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/newdata.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -162,7 +165,7 @@ public class Convex_Hull extends JPanel {
 	        }
 	    }
 	    catch(Exception e) {
-	        System.out.println("Problem reading coordinates from newdata.txt file");
+	        System.out.println("Problem reading coordinates from input.txt file");
 	        //  e.printStackTrace();
 	    }
 	    
@@ -172,7 +175,7 @@ public class Convex_Hull extends JPanel {
         int [] yy = new int[newnumcoords];  //  how many coords are in file
 	    
 	    try (
-		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/newdata.txt")));
+		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
 		        ) {
 		        int i = 0;
 
@@ -192,7 +195,7 @@ public class Convex_Hull extends JPanel {
 
 		    }
 		    catch(Exception e) {
-		       System.out.println("Problem reading coordinates from newdata.txt file");
+		       System.out.println("Problem reading coordinates from input.txt file");
 		       //  e.printStackTrace();
 		    }
 	    
@@ -219,7 +222,7 @@ public class Convex_Hull extends JPanel {
 	    //  separate x and y arrays
 
 	    try (
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -240,7 +243,7 @@ public class Convex_Hull extends JPanel {
         int [] retyy = new int[numcoords];  //  how many coords are in file
         
 	    try (
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        int i = 0;
 
@@ -277,18 +280,20 @@ public class Convex_Hull extends JPanel {
 	    finalxx = retxx; 
 		finalyy = retyy;
 		
-		for (int i = 0; i < 4; i++) {
-			System.out.println(getrealx(finalxx[i]));
-			System.out.println(getrealy(finalyy[i]));
-		}
+		inputxx = xx;
+		inputyy = yy;
 		
-//		0, 3
-//		2, 3
-//		1, 1
-//		2, 1
-//		3, 0
-//		0, 0
-//		3, 3
+//		for (int i = 0; i < 4; i++) {
+//			System.out.println(getrealx(finalxx[i]));
+//			System.out.println(getrealy(finalyy[i]));
+//		}
+//		
+//		System.out.println("");
+//		for (int i = 0; i < newnumcoords -1; i++) {
+//			System.out.println(getrealx(inputxx[i]));
+//			System.out.println(getrealy(inputyy[i]));
+//		}
+	
 	  }
     
   
@@ -300,14 +305,23 @@ public class Convex_Hull extends JPanel {
     		 g.drawLine(getrealx(finalxx[i]), getrealy(finalyy[i]), getrealx(finalxx[a]), getrealy(finalyy[a]));
     	 }
     	 
-    	 g.drawOval(100, 100, 1, 1);
+    	 for (int i = 0; i < newnumcoords -1; i++) {
+    		 int a = i+1;
+    		 
+    		 g.fillOval(getrealx(inputxx[i]) - 5, getrealy(inputyy[i]) - 5, 10, 10);
+    	 }
+    	 
+    	 g.fillOval(getrealx(inputxx[newnumcoords-1]) - 5, getrealy(inputyy[newnumcoords-1]) - 5, 10, 10);
+    	 
+    	 g.drawString(inputxx[newnumcoords -1] + ", " + inputyy[newnumcoords -1],getrealx(inputxx[newnumcoords -1]),getrealy(inputyy[newnumcoords -1]));
+    	 
     	 g.drawLine(getrealx(finalxx[numcoords-1]), getrealy(finalyy[numcoords-1]), getrealx(finalxx[0]), getrealy(finalyy[0]));
-	
-	     //  text identifiers
-	     g.drawString("10,-10",120,120);
-	     g.drawString("10,10", 120, 20);
-	     g.drawString("-10,10", 20, 20);
-	     g.drawString("-10,10", 20,120);
+    	 
+    	 for (int i = 0; i < newnumcoords -1; i++) {
+    		 
+    		 g.drawString(inputxx[i] + ", " + inputyy[i],getrealx(inputxx[i]),getrealy(inputyy[i]));
+    	 }
+ 
 	  }
 
 } 
