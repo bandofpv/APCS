@@ -68,10 +68,10 @@ public class Convex_Hull extends JPanel {
         // Initialize Result 
         Vector<Point> hull = new Vector<Point>(); 
        
-        // Find the leftmost point 
+        // Find the rightmost point 
         int l = 0; 
         for (int i = 1; i < n; i++) 
-            if (points[i].x < points[l].x) 
+            if (points[i].x > points[l].x) 
                 l = i; 
        
         // Start from leftmost point, keep moving  
@@ -111,7 +111,7 @@ public class Convex_Hull extends JPanel {
 
         // Creating a File object that represents the disk file. 
         //NOTE: here is where you have to indicate the full file path to your ret.txt file
-        PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
+        PrintStream o = new PrintStream(new File("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
         
         // Store current System.out before assigning a new value 
         PrintStream console = System.out; 
@@ -155,7 +155,7 @@ public class Convex_Hull extends JPanel {
 
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your input.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/input.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -178,7 +178,7 @@ public class Convex_Hull extends JPanel {
 	    
 	    try (
 	    		//NOTE: here is where you have to indicate the full file path to your input.txt file
-		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
+		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/input.txt")));
 		        ) {
 		        int i = 0;
 
@@ -193,6 +193,7 @@ public class Convex_Hull extends JPanel {
 		               i++;
 		            }
 		        }
+		        
 		       System.out.println("x: " + Arrays.toString(xx));
 		       System.out.println("y: " + Arrays.toString(yy));
 
@@ -226,7 +227,7 @@ public class Convex_Hull extends JPanel {
 
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -248,7 +249,7 @@ public class Convex_Hull extends JPanel {
         
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        int i = 0;
 
@@ -263,6 +264,7 @@ public class Convex_Hull extends JPanel {
 	               i++;
 	            }
 	        }
+	     
 	       System.out.println("x: " + Arrays.toString(retxx));
 	       System.out.println("y: " + Arrays.toString(retyy));
 
