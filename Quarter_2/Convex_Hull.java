@@ -74,7 +74,7 @@ public class Convex_Hull extends JPanel {
             if (points[i].x > points[l].x) 
                 l = i; 
        
-        // Start from leftmost point, keep moving  
+        // Start from rightmost point, keep moving  
         // counterclockwise until reach the start point 
         // again. This loop runs O(h) times where h is 
         // number of points in result or output. 
@@ -111,7 +111,7 @@ public class Convex_Hull extends JPanel {
 
         // Creating a File object that represents the disk file. 
         //NOTE: here is where you have to indicate the full file path to your ret.txt file
-        PrintStream o = new PrintStream(new File("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
+        PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")); 
         
         // Store current System.out before assigning a new value 
         PrintStream console = System.out; 
@@ -121,8 +121,7 @@ public class Convex_Hull extends JPanel {
        
         // Print Result 
         for (Point temp : hull) 
-            System.out.println(temp.x + ", " + temp.y); 
-        
+            System.out.println("java.awt.Point[x=" + temp.x + ",y=" + temp.y + "]"); 
         System.setOut(console); 
 
         
@@ -155,7 +154,7 @@ public class Convex_Hull extends JPanel {
 
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your input.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/input.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -171,14 +170,14 @@ public class Convex_Hull extends JPanel {
 	        //  e.printStackTrace();
 	    }
 	    
-	    System.out.println("newdata.txt file contains " + newnumcoords + " coordinate sets");
+	    System.out.println("input.txt file contains " + newnumcoords + " coordinate sets");
 	    
         int [] xx = new int[newnumcoords];  //  allocate array, we know
         int [] yy = new int[newnumcoords];  //  how many coords are in file
 	    
 	    try (
 	    		//NOTE: here is where you have to indicate the full file path to your input.txt file
-		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/input.txt")));
+		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/input.txt")));
 		        ) {
 		        int i = 0;
 
@@ -227,7 +226,7 @@ public class Convex_Hull extends JPanel {
 
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -249,14 +248,14 @@ public class Convex_Hull extends JPanel {
         
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/ret.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/ret.txt")));
 	        ) {
 	        int i = 0;
 
 	        while(sc.hasNextLine()) {
 	        //  String line = sc.nextLine();
 
-	            String[] line = sc.nextLine().split(",");
+	            String[] line = sc.nextLine().split(",y=");
 	            if (line.length > 1) {
 	               //  without this check, blank lines will throw an exception
 	               retxx[i] = Integer.parseInt(line[0].trim());

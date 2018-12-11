@@ -42,14 +42,60 @@ public class Flag extends JApplet {
 	private final double L = 0.0769;  // Width of stripe
 
     // You will need to set values for these in paint()
-	private double flag_width;   // width of flag in pixels
-	private double flag_height;  // height of flag in pixels
-	private double stripe_height;
-	private double field_width;
-	private double field_height; 
-	private double star_radius;
+	private static double flag_width;   // width of flag in pixels
+	private static double flag_height;  // height of flag in pixels
+	private static double stripe_height; 
+	private static double field_width;
+	private static double field_height; 
+	private static double star_radius;
 	
+	public static double getFlag_Width() {
+		return flag_width;
+	}
 	
+	public static double getFlag_Height() {
+		return flag_height;
+	}
+	
+	public static double getStripe_Height() {
+		return stripe_height;
+	}
+	
+	public static double getField_Width() {
+		return field_width;
+	}
+	
+	public static double getField_Height() {
+		return field_height;
+	}
+	
+	public static double getStar_Radius() {
+		return star_radius;
+	}
+	
+	public void setFlag_Width(double newFlag_Width) {
+		flag_width = newFlag_Width;
+	}
+	
+	public void setFlag_Height(double newFlag_Height) {
+		flag_height = newFlag_Height;
+	}
+	
+	public static void setStripe_Height(double newStripe_Height) {
+		stripe_height = newStripe_Height;
+	}
+	
+//	public static double getField_Width() {
+//		return field_width;
+//	}
+//	
+//	public static double getField_Height() {
+//		return field_height;
+//	}
+//	
+//	public static double getStar_Radius() {
+//		return star_radius;
+//	}
     // init() will automatically be called when an applet is run
 	public void init() {
 		// Choice of width = 1.9 * height to start off
@@ -64,12 +110,12 @@ public class Flag extends JApplet {
        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (getHeight() * B > getWidth()) {
-			flag_width = getWidth();
-			flag_height = flag_width / B;
+			setFlag_Width(getWidth());
+			setFlag_Height(getFlag_Width() / B);
 		}
 		else {
 			flag_height = getHeight();
-			flag_width = flag_height * B;
+			flag_width = getFlag_Height() * B;
 			
 		}
 		
@@ -90,7 +136,7 @@ public class Flag extends JApplet {
 	private void drawBackground(Graphics g) {
 		
 		g.setColor(Color.decode("0xFFFFFF"));
-		g.fillRect(0,0, (int)(flag_width), (int)(flag_height));
+		g.fillRect(0,0, (int)(flag_width), (int)(getFlag_Height()));
 		
 		g.setColor(Color.decode("0xEEEEEE"));
 		g.fillRect(0,0, (int)(getWidth()), (int)(getHeight()));
@@ -101,11 +147,11 @@ public class Flag extends JApplet {
 		for(int i = 0; i < STRIPES; i++) {
 			for(int s = 0; s <= STRIPES; s += 2) {
 				g.setColor(Color.decode("0xE0162B"));
-				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(Math.round(stripe_height)));
+				g.fillRect(0, (int)(getStripe_Height() * s), (int)(getFlag_Width()),(int)(Math.round(getStripe_Height())));
 			}
 			for(int s = 1; s < STRIPES; s += 2) {
 				g.setColor(Color.WHITE);
-				g.fillRect(0, (int)(stripe_height * s), (int)(flag_width),(int)(Math.round(stripe_height)));
+				g.fillRect(0, (int)(getStripe_Height() * s), (int)(getFlag_Width()),(int)(Math.round(getStripe_Height())));
 			}
 		}
 	}
