@@ -1,222 +1,302 @@
-import java.awt.Point;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.*;
 
+import javax.swing.*;
 
-public final class GrahamScan {
+public class GrahamScan extends JPanel{
+	
+	public static int [] finalxx = new int[10];
+	public static int [] finalyy = new int[10];
+	
+	public static Object [] pointsxx = new Object[20];
+	public static Object [] pointsyy = new Object[20];
+	
+	public static int[] allPointsxx = new int[10];
+	public static int[] allPointsyy = new int[10];
+	
+	public static int numcoords = 0;
+	public static int newnumcoords = 0;
 
-
-    protected static enum Turn { CLOCKWISE, COUNTER_CLOCKWISE, COLLINEAR }
-
-    protected static boolean areAllCollinear(List<Point> points) {
-
-        if(points.size() < 2) {
-            return true;
+	
+	private final int X_GRID_OFFSET = 25; // 25 pixels from left
+	private final int Y_GRID_OFFSET = 40; // 40 pixels from top
+	private final int CELL_WIDTH = 5;
+	private final int CELL_HEIGHT = 5;
+	
+	public static String xs = "";
+	public static String ys = "";
+	
+    static class Point {
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
+        int x, y;
+        
+        //formula from geometry course
+        static int ccw(Point a, Point b, Point c) {
+            int area = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);  
+            if(area < 0) return -1;
+            if(area > 0) return 1;  //counter clockwise
+            else return 0;
+        }
+        
+        public final Comparator<Point> POLAR_ORDER = new PolarOrder();
+        
+        private class PolarOrder implements Comparator<Point> {
+            public int compare(Point q1, Point q2) {
+                int dx1 = q1.x - x;
+                int dy1 = q1.y - y;
+                int dx2 = q2.x - x;
+                int dy2 = q2.y - y;
 
-        final Point a = points.get(0);
-        final Point b = points.get(1);
+                if      (dy1 >= 0 && dy2 < 0) return -1;    // q1 above; q2 below
+                else if (dy2 >= 0 && dy1 < 0) return +1;    // q1 below; q2 above
+                else if (dy1 == 0 && dy2 == 0) {            // 3-collinear and horizontal
+                    if      (dx1 >= 0 && dx2 < 0) return -1;
+                    else if (dx2 >= 0 && dx1 < 0) return +1;
+                    else                          return  0;
+                }
+                else return -ccw(Point.this, q1, q2);     // both above or below
 
-        for(int i = 2; i < points.size(); i++) {
-
-            Point c = points.get(i);
-
-            if(getTurn(a, b, c) != Turn.COLLINEAR) {
-                return false;
             }
         }
-
-        return true;
-    }
-
-    public static List<Point> getConvexHull(int[] xs, int[] ys) throws IllegalArgumentException {
-
-        if(xs.length != ys.length) {
-            throw new IllegalArgumentException("xs and ys don't have the same size");
+        
+        @Override
+        public String toString() {
+            return x + "," + y ;
         }
-
-        List<Point> points = new ArrayList<Point>();
-
-        for(int i = 0; i < xs.length; i++) {
-            points.add(new Point(xs[i], ys[i]));
-        }
-
-        return getConvexHull(points);
-    }
-
-    public static List<Point> getConvexHull(List<Point> points) throws IllegalArgumentException {
-
-        List<Point> sorted = new ArrayList<Point>(getSortedPointSet(points));
-
-        if(sorted.size() < 3) {
-            throw new IllegalArgumentException("can only create a convex hull of 3 or more unique points");
-        }
-
-        if(areAllCollinear(sorted)) {
-            throw new IllegalArgumentException("cannot create a convex hull from collinear points");
-        }
-
-        Stack<Point> stack = new Stack<Point>();
-        stack.push(sorted.get(0));
-        stack.push(sorted.get(1));
-
-        for (int i = 2; i < sorted.size(); i++) {
-
-            Point head = sorted.get(i);
-            Point middle = stack.pop();
-            Point tail = stack.peek();
-
-            Turn turn = getTurn(tail, middle, head);
-
-            switch(turn) {
-                case COUNTER_CLOCKWISE:
-                    stack.push(middle);
-                    stack.push(head);
-                    break;
-                case CLOCKWISE:
-                    i--;
-                    break;
-                case COLLINEAR:
-                    stack.push(head);
-                    break;
-            }
-        }
-
-        // close the hull
-        stack.push(sorted.get(0));
-
-        return new ArrayList<Point>(stack);
-    }
-
-    /**
-     * Returns the points with the lowest y coordinate. In case more than 1 such
-     * point exists, the one with the lowest x coordinate is returned.
-     *
-     * @param points the list of points to return the lowest point from.
-     * @return       the points with the lowest y coordinate. In case more than
-     *               1 such point exists, the one with the lowest x coordinate
-     *               is returned.
-     */
-    protected static Point getLowestPoint(List<Point> points) {
-
-        Point lowest = points.get(0);
-
-        for(int i = 1; i < points.size(); i++) {
-
-            Point temp = points.get(i);
-
-            if(temp.y < lowest.y || (temp.y == lowest.y && temp.x < lowest.x)) {
-                lowest = temp;
-            }
-        }
-
-        return lowest;
-    }
-
-    /**
-     * Returns a sorted set of points from the list <code>points</code>. The
-     * set of points are sorted in increasing order of the angle they and the
-     * lowest point <tt>P</tt> make with the x-axis. If tow (or more) points
-     * form the same angle towards <tt>P</tt>, the one closest to <tt>P</tt>
-     * comes first.
-     *
-     * @param points the list of points to sort.
-     * @return       a sorted set of points from the list <code>points</code>.
-     * @see GrahamScan#getLowestPoint(java.util.List)
-     */
-    protected static Set<Point> getSortedPointSet(List<Point> points) {
-
-        final Point lowest = getLowestPoint(points);
-
-        TreeSet<Point> set = new TreeSet<Point>(new Comparator<Point>() {
-            @Override
-            public int compare(Point a, Point b) {
-
-                if(a == b || a.equals(b)) {
-                    return 0;
-                }
-
-                // use longs to guard against int-underflow
-                double thetaA = Math.atan2((long)a.y - lowest.y, (long)a.x - lowest.x);
-                double thetaB = Math.atan2((long)b.y - lowest.y, (long)b.x - lowest.x);
-
-                if(thetaA < thetaB) {
-                    return -1;
-                }
-                else if(thetaA > thetaB) {
-                    return 1;
-                }
-                else {
-                    // collinear with the 'lowest' point, let the point closest to it come first
-
-                    // use longs to guard against int-over/underflow
-                    double distanceA = Math.sqrt((((long)lowest.x - a.x) * ((long)lowest.x - a.x)) +
-                                                (((long)lowest.y - a.y) * ((long)lowest.y - a.y)));
-                    double distanceB = Math.sqrt((((long)lowest.x - b.x) * ((long)lowest.x - b.x)) +
-                                                (((long)lowest.y - b.y) * ((long)lowest.y - b.y)));
-
-                    if(distanceA < distanceB) {
-                        return -1;
-                    }
-                    else {
-                        return 1;
-                    }
-                }
-            }
-        });
-
-        set.addAll(points);
-
-        return set;
-    }
-
-    /**
-     * Returns the GrahamScan#Turn formed by traversing through the
-     * ordered points <code>a</code>, <code>b</code> and <code>c</code>.
-     * More specifically, the cross product <tt>C</tt> between the
-     * 3 points (vectors) is calculated:
-     *
-     * <tt>(b.x-a.x * c.y-a.y) - (b.y-a.y * c.x-a.x)</tt>
-     *
-     * and if <tt>C</tt> is less than 0, the turn is CLOCKWISE, if
-     * <tt>C</tt> is more than 0, the turn is COUNTER_CLOCKWISE, else
-     * the three points are COLLINEAR.
-     *
-     * @param a the starting point.
-     * @param b the second point.
-     * @param c the end point.
-     * @return the GrahamScan#Turn formed by traversing through the
-     *         ordered points <code>a</code>, <code>b</code> and
-     *         <code>c</code>.
-     */
-    protected static Turn getTurn(Point a, Point b, Point c) {
-
-        // use longs to guard against int-over/underflow
-        long crossProduct = (((long)b.x - a.x) * ((long)c.y - a.y)) -
-                            (((long)b.y - a.y) * ((long)c.x - a.x));
-
-        if(crossProduct > 0) {
-            return Turn.COUNTER_CLOCKWISE;
-        }
-        else if(crossProduct < 0) {
-            return Turn.CLOCKWISE;
-        }
-        else {
-            return Turn.COLLINEAR;
-        }
-    }
-    public static void main(String[] args) {
-    	// x coordinates
-        int[] xs = {3, 5, -1, 8, -6, 23, 4};
-
-        // y coordinates
-        int[] ys = {9, 2, -4, 3, 90, 3, -11};
-
-        // find the convex hull
-        List<Point> convexHull = GrahamScan.getConvexHull(xs, ys);
-
-        for(Point p : convexHull) {
-            System.out.println(p);
-        }
+        
     }
     
+    public static int getrealx(int xcoord) {
+    	if (xcoord < 0) {
+    		return -(Math.abs(xcoord) * 4) + 100;
+    	}
+    	else if (xcoord > 0) {
+    		return (Math.abs(xcoord) * 4) + 100;
+    	}
+    	return 100;
+    }
+    
+    public static int getrealy(int ycoord) {
+    	if (ycoord < 0) {
+    		return (Math.abs(ycoord) * 4) + 100;
+    	}
+    	else if (ycoord > 0) {
+    		return -(Math.abs(ycoord) * 4) + 100;
+    	}
+    	return 100;
+    }
+    
+    public static List<Point> points = new ArrayList<>();
+    
+    //  this launches the window display
+    //  TO DO: replace the static lines/text coordinates with your
+//             point cloud and Convex Hull line segment solution
+    public static void main(String[] args) throws FileNotFoundException {
+    	
+	    try (
+	    	//NOTE: here is where you have to indicate the full file path to your input.txt file
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/points.txt")));
+	        ) {
+	        while(sc.hasNextLine()) {
+	            //  this file read pass gets total number of coordinates
+	            String[] l2 = sc.nextLine().split(",");
+	            if (l2.length > 1) {
+	               //  without this check, blank lines will throw an exception
+	               numcoords++;
+	            }
+	        }
+	    }
+	    catch(Exception e) {
+	        System.out.println("Problem reading coordinates from points.txt file");
+	        //  e.printStackTrace();
+	    }
+	    
+	    System.out.println("input.txt file contains " + numcoords + " coordinate sets");
+	    
+        int [] xx = new int[numcoords];  //  allocate array, we know
+        int [] yy = new int[numcoords];  //  how many coords are in file
+	    
+	    try (
+	    		//NOTE: here is where you have to indicate the full file path to your input.txt file
+		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/points.txt")));
+		        ) {
+		        int i = 0;
+
+		        while(sc.hasNextLine()) {
+		        //  String line = sc.nextLine();
+
+		            String[] line = sc.nextLine().split(",");
+		            if (line.length > 1) {
+		               //  without this check, blank lines will throw an exception
+		               xx[i] = Integer.parseInt(line[0].trim());
+		               yy[i] = Integer.parseInt(line[1].trim());
+		               i++;
+		            }
+		        }
+		        
+		       System.out.println("x: " + Arrays.toString(xx));
+		       System.out.println("y: " + Arrays.toString(yy));
+
+		    }
+		    catch(Exception e) {
+		       System.out.println("Problem reading coordinates from input.txt file");
+		       //  e.printStackTrace();
+		    }
+	    
+	//  the following code will attempt to read in x,y coordinate values into
+	    //  separate x and y arrays
+
+	    try (
+	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")));
+	        ) {
+	        while(sc.hasNextLine()) {
+	            //  this file read pass gets total number of coordinates
+	            String[] l1 = sc.nextLine().split(",");
+	            if (l1.length > 1) {
+	               //  without this check, blank lines will throw an exception
+	               newnumcoords++;
+	            }
+	        }
+	    }
+	    catch(Exception e) {
+	        System.out.println("Problem reading coordinates from retpoints.txt file");
+	        //  e.printStackTrace();
+	    }
+	    System.out.println("retpoints.txt file contains " + newnumcoords + " coordinate sets");
+	    
+        int [] retxx = new int[newnumcoords];  //  allocate array, we know
+        int [] retyy = new int[newnumcoords];  //  how many coords are in file
+        
+	    try (
+	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")));
+	        ) {
+	        int i = 0;
+
+	        while(sc.hasNextLine()) {
+	        //  String line = sc.nextLine();
+
+	            String[] line = sc.nextLine().split(",");
+	            if (line.length > 1) {
+	               //  without this check, blank lines will throw an exception
+	               retxx[i] = Integer.parseInt(line[0].trim());
+	               retyy[i] = Integer.parseInt(line[1].trim());
+	               i++;
+	            }
+	        }
+	     
+	       System.out.println("x: " + Arrays.toString(retxx));
+	       System.out.println("y: " + Arrays.toString(retyy));
+
+	    }
+	    catch(Exception e) {
+	       System.out.println("Problem reading coordinates from retpoints.txt file");
+	       //  e.printStackTrace();
+	    }
+	    
+		for (int i = 0; i < xx.length; i++) {
+			points.add(new Point(xx[i], yy[i]));
+	    }
+		
+		for (int i = 0; i < xx.length; i++) {
+			allPointsxx[i] = xx[i];
+			allPointsyy[i] = yy[i];
+	    }
+		
+		finalxx = retxx;
+		finalyy = retyy;
+
+        Collections.sort(points, (p1, p2) -> (int)(p1.y - p2.y));
+        Collections.sort(points, points.get(0).POLAR_ORDER);
+        
+        Deque<Point> hull = new ArrayDeque<>();
+        hull.push(points.get(0));
+        hull.push(points.get(1));
+        for(int i = 2; i < points.size(); i++) {
+            Point top = hull.pop();
+            Point c = points.get(i);
+            while(Point.ccw(hull.peek(), top, c) <= 0) {
+                top = hull.pop();
+            }
+            hull.push(top);
+            hull.push(c);
+        }
+        
+        System.out.println(hull);
+	    
+	    JFrame.setDefaultLookAndFeelDecorated(true);
+	    JFrame frame = new JFrame("Simple Window");
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setBackground(Color.white);
+	    frame.setSize(200, 200);
+	    
+	    GrahamScan panel = new GrahamScan();
+ 
+	    frame.add(panel);
+ 
+	    frame.setVisible(true);
+	
+	   
+	    pointsxx = hull.toArray();
+	    pointsyy = hull.toArray();
+	    
+	    // Creating a File object that represents the disk file. 
+        //NOTE: here is where you have to indicate the full file path to your ret.txt file
+        PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")); 
+        
+        // Store current System.out before assigning a new value 
+        PrintStream console = System.out; 
+  
+        // Assign o to output stream 
+        System.setOut(o); 
+       
+        // Print Result 
+        for (int i = 0; i < pointsxx.length; i++) 
+            System.out.println(pointsxx[i]); 
+        System.setOut(console); 
+	    
+	    System.out.println(allPointsyy[0]);
+
+    }
+
+
+    public void paintComponent(Graphics g) {
+   	 g.setColor(Color.black);
+   	 for (int i = 0; i < finalxx.length -1; i++) {
+   		 int a = i+1;
+   		 
+   		 g.drawLine(getrealx(finalxx[i]), getrealy(finalyy[i]), getrealx(finalxx[a]), getrealy(finalyy[a]));
+   	 }
+   	 
+    	 for (int i = 0; i < allPointsxx.length-1; i++) {
+   		 int a = i+1;
+   		 
+   		 g.fillOval(getrealx(allPointsxx[i]) - 5, getrealy(allPointsyy[i]) - 5, 10, 10);
+   	 }
+   	 
+    	 g.fillOval(getrealx(allPointsxx[allPointsxx.length-1]) - 5, getrealy(allPointsyy[allPointsyy.length-1]) - 5, 10, 10);
+   	 
+   	     g.drawString(allPointsxx[allPointsxx.length -1] + ", " + allPointsyy[allPointsyy.length -1],getrealx(allPointsxx[allPointsxx.length -1]),getrealy(allPointsyy[allPointsyy.length -1]));
+   	 
+   	     g.drawLine(getrealx(finalxx[finalxx.length -1]), getrealy(finalyy[finalyy.length -1]), getrealx(finalxx[0]), getrealy(finalyy[0]));
+   	 
+   	     for (int i = 0; i < allPointsxx.length -1; i++) {
+   		 
+   	    	 g.drawString(allPointsxx[i] + ", " + allPointsyy[i],getrealx(allPointsxx[i]),getrealy(allPointsyy[i]));
+   	     }
+
+	  }
+
 }

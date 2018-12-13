@@ -121,7 +121,7 @@ public class Convex_Hull extends JPanel {
        
         // Print Result 
         for (Point temp : hull) 
-            System.out.println("java.awt.Point[x=" + temp.x + ",y=" + temp.y + "]"); 
+            System.out.println(temp.x + ", " + temp.y); 
         System.setOut(console); 
 
         
@@ -255,7 +255,7 @@ public class Convex_Hull extends JPanel {
 	        while(sc.hasNextLine()) {
 	        //  String line = sc.nextLine();
 
-	            String[] line = sc.nextLine().split(",y=");
+	            String[] line = sc.nextLine().split(", ");
 	            if (line.length > 1) {
 	               //  without this check, blank lines will throw an exception
 	               retxx[i] = Integer.parseInt(line[0].trim());
