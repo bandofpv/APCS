@@ -85,14 +85,14 @@ public class Flag extends JApplet {
 		stripe_height = newStripe_Height;
 	}
 	
-//	public static double getField_Width() {
-//		return field_width;
-//	}
-//	
-//	public static double getField_Height() {
-//		return field_height;
-//	}
-//	
+	public static void setField_Width(double newField_Width) {
+		field_width = newField_Width;
+	}
+	
+	public static void setField_Height(double newField_Height) {
+		field_height = newField_Height;
+	}
+	
 //	public static double getStar_Radius() {
 //		return star_radius;
 //	}
@@ -118,12 +118,10 @@ public class Flag extends JApplet {
 			flag_width = getFlag_Height() * B;
 			
 		}
-		
-		stripe_height = L * flag_height;
-		field_width = D * flag_height;
-		field_height = C * flag_height; 
-		
-		
+
+		setStripe_Height(L * getFlag_Height());
+		setField_Width(D * getFlag_Height());
+		setField_Height(C * getFlag_Height());	
 
 		drawBackground(g);
 		drawStripes(g);
@@ -136,7 +134,7 @@ public class Flag extends JApplet {
 	private void drawBackground(Graphics g) {
 		
 		g.setColor(Color.decode("0xFFFFFF"));
-		g.fillRect(0,0, (int)(flag_width), (int)(getFlag_Height()));
+		g.fillRect(0,0, (int)(getFlag_Width()), (int)(getFlag_Height()));
 		
 		g.setColor(Color.decode("0xEEEEEE"));
 		g.fillRect(0,0, (int)(getWidth()), (int)(getHeight()));
@@ -158,19 +156,19 @@ public class Flag extends JApplet {
 
 	public void drawField(Graphics g) {
 		g.setColor(Color.decode("0x0052A5"));
-		g.fillRect(0, 0, (int)(field_width), (int)(field_height));
+		g.fillRect(0, 0, (int)(getField_Width()), (int)(getField_Height()));
 	}
 
 	public void drawStars(Graphics g) {
 		for (int i = 0; i < 9; i++){
 			if (i % 2 == 0) {
 				for (int j = 0; j < 6; j++){
-					drawStar(g, (int)((G + H * 2 * j) * flag_height), (int)((E + F *i) * flag_height));
+					drawStar(g, (int)((G + H * 2 * j) * getFlag_Height()), (int)((E + F *i) * getFlag_Height()));
 				}
 			}
 			else {
 				for (int j = 0; j < 5; j++) {
-					drawStar(g, (int)((G + H + (H * 2) * j) * flag_height), (int)((E + F * i) * flag_height));
+					drawStar(g, (int)((G + H + (H * 2) * j) * getFlag_Height()), (int)((E + F * i) * getFlag_Height()));
 				}
 			}
 		}
@@ -183,12 +181,12 @@ public class Flag extends JApplet {
 		
 		int[] scaleStarX = new int[starX.length];
 		for (int i = 0; i < starX.length; i++) {
-			scaleStarX[i] = (int)(x + starX[i] * (0.5 /0.85) * K * flag_height);
+			scaleStarX[i] = (int)(x + starX[i] * (0.5 /0.85) * K * getFlag_Height());
 		}
 		
 		int[] scaleStarY = new int[starY.length];
 		for (int i = 0; i < starY.length; i++) {
-			scaleStarY[i] = (int)(y + starY[i] * (0.5 /0.85) * K * flag_height);
+			scaleStarY[i] = (int)(y + starY[i] * (0.5 /0.85) * K * getFlag_Height());
 		}
 		
 		g.fillPolygon(scaleStarX, scaleStarY, scaleStarY.length);

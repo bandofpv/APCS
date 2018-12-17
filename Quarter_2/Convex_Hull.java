@@ -35,11 +35,6 @@ public class Convex_Hull extends JPanel {
 	public static int newnumcoords = 0;
 	public static int numcoords = 0;
 	
-	private final int X_GRID_OFFSET = 25; // 25 pixels from left
-	private final int Y_GRID_OFFSET = 40; // 40 pixels from top
-	private final int CELL_WIDTH = 5;
-	private final int CELL_HEIGHT = 5;
-	
 	public static String xs = "";
 	public static String ys = "";
       

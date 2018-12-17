@@ -24,12 +24,6 @@ public class GrahamScan extends JPanel{
 	
 	public static int numcoords = 0;
 	public static int newnumcoords = 0;
-
-	
-	private final int X_GRID_OFFSET = 25; // 25 pixels from left
-	private final int Y_GRID_OFFSET = 40; // 40 pixels from top
-	private final int CELL_WIDTH = 5;
-	private final int CELL_HEIGHT = 5;
 	
 	public static String xs = "";
 	public static String ys = "";
@@ -154,7 +148,50 @@ public class GrahamScan extends JPanel{
 		       //  e.printStackTrace();
 		    }
 	    
-	//  the following code will attempt to read in x,y coordinate values into
+		for (int i = 0; i < xx.length; i++) {
+			points.add(new Point(xx[i], yy[i]));
+	    }
+		
+		for (int i = 0; i < xx.length; i++) {
+			allPointsxx[i] = xx[i];
+			allPointsyy[i] = yy[i];
+	    }
+
+        Collections.sort(points, (p1, p2) -> (int)(p1.y - p2.y));
+        Collections.sort(points, points.get(0).POLAR_ORDER);
+        
+        Deque<Point> hull = new ArrayDeque<>();
+        hull.push(points.get(0));
+        hull.push(points.get(1));
+        for(int i = 2; i < points.size(); i++) {
+            Point top = hull.pop();
+            Point c = points.get(i);
+            while(Point.ccw(hull.peek(), top, c) <= 0) {
+                top = hull.pop();
+            }
+            hull.push(top);
+            hull.push(c);
+        }
+        
+        pointsxx = hull.toArray();
+	    pointsyy = hull.toArray();
+	    
+	    // Creating a File object that represents the disk file. 
+        //NOTE: here is where you have to indicate the full file path to your ret.txt file
+        PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")); 
+        
+        // Store current System.out before assigning a new value 
+        PrintStream console = System.out; 
+  
+        // Assign o to output stream 
+        System.setOut(o); 
+       
+        // Print Result 
+        for (int i = 0; i < pointsxx.length; i++) 
+            System.out.println(pointsxx[i]); 
+        System.setOut(console);  
+        
+    //  the following code will attempt to read in x,y coordinate values into
 	    //  separate x and y arrays
 
 	    try (
@@ -206,35 +243,8 @@ public class GrahamScan extends JPanel{
 	       //  e.printStackTrace();
 	    }
 	    
-		for (int i = 0; i < xx.length; i++) {
-			points.add(new Point(xx[i], yy[i]));
-	    }
-		
-		for (int i = 0; i < xx.length; i++) {
-			allPointsxx[i] = xx[i];
-			allPointsyy[i] = yy[i];
-	    }
-		
-		finalxx = retxx;
+	    finalxx = retxx;
 		finalyy = retyy;
-
-        Collections.sort(points, (p1, p2) -> (int)(p1.y - p2.y));
-        Collections.sort(points, points.get(0).POLAR_ORDER);
-        
-        Deque<Point> hull = new ArrayDeque<>();
-        hull.push(points.get(0));
-        hull.push(points.get(1));
-        for(int i = 2; i < points.size(); i++) {
-            Point top = hull.pop();
-            Point c = points.get(i);
-            while(Point.ccw(hull.peek(), top, c) <= 0) {
-                top = hull.pop();
-            }
-            hull.push(top);
-            hull.push(c);
-        }
-        
-        System.out.println(hull);
 	    
 	    JFrame.setDefaultLookAndFeelDecorated(true);
 	    JFrame frame = new JFrame("Simple Window");
@@ -247,27 +257,6 @@ public class GrahamScan extends JPanel{
 	    frame.add(panel);
  
 	    frame.setVisible(true);
-	
-	   
-	    pointsxx = hull.toArray();
-	    pointsyy = hull.toArray();
-	    
-	    // Creating a File object that represents the disk file. 
-        //NOTE: here is where you have to indicate the full file path to your ret.txt file
-        PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")); 
-        
-        // Store current System.out before assigning a new value 
-        PrintStream console = System.out; 
-  
-        // Assign o to output stream 
-        System.setOut(o); 
-       
-        // Print Result 
-        for (int i = 0; i < pointsxx.length; i++) 
-            System.out.println(pointsxx[i]); 
-        System.setOut(console); 
-	    
-	    System.out.println(allPointsyy[0]);
 
     }
 

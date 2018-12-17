@@ -18,6 +18,7 @@ import javax.swing.JComponent;
 
 
 public class Display extends JComponent implements MouseListener, MouseMotionListener {
+	// Variables for cells and offsets
 	public static final int ROWS = 80;
 	public static final int COLS = 100;
 	public static Cell[][] cell = new Cell[ROWS][COLS];
@@ -27,6 +28,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private final int CELL_HEIGHT = 5;
 
 	// Note that a final field can be initialized in constructor
+	// Variable for display and buttons
 	private final int DISPLAY_WIDTH;   
 	private final int DISPLAY_HEIGHT;
 	private StartButton startStop;
@@ -38,23 +40,21 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 	private boolean paintloop = false;
 	private boolean stepOne = false;
 	private boolean wrap = true;
-	
-	int y1 = 22;
-	int y2 = 23;
-	int y3 = 24;
 
-
+	//Sets the Display to proper height and width
 	public Display(int width, int height) {
 		DISPLAY_WIDTH = width;
 		DISPLAY_HEIGHT = height;
 		init();
 	}
 
-
+	//This will always run
 	public void init() {
+		//sets size of the display
 		setSize(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 		initCells();
-
+		
+		//added mouse listener to get mouse inputs
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
@@ -66,30 +66,35 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		startStop.setVisible(true);
 		repaint();
 		
+		//Create Step Button
 		Step = new StepButton();
 		Step.setBounds(200, 550, 100, 36);
 		add(Step);
 		Step.setVisible(true);
 		repaint();
 		
+		//Create Wrap Button
 		Wrap = new WrapButton();
 		Wrap.setBounds(300, 550, 100, 36);
 		add(Wrap);
 		Wrap.setVisible(true);
 		repaint();
 		
+		//Create Preset Button
 		Preset = new PresetButton();
 		Preset.setBounds(400, 550, 100, 36);
 		add(Preset);
 		Preset.setVisible(true);
 		repaint();
 		
+		//Create Clear Button
 		Clear = new ClearButton();
 		Clear.setBounds(500, 550, 100, 36);
 		add(Clear);
 		Clear.setVisible(true);
 		repaint();
 		
+		//Create Quit Button
 		Quit = new QuitButton();
 		Quit.setBounds(600, 550, 100, 36);
 		add(Quit);
@@ -100,12 +105,14 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 
 	public void paintComponent(Graphics g) {
 		final int TIME_BETWEEN_REPLOTS = 100; // change to your liking
-
+		
+		//Draw the grid, cells, and buttons
 		g.setColor(Color.BLACK);
 		drawGrid(g);
 		drawCells(g);
 		drawButtons();
 
+		//This will run nextGeneration();
 		if (paintloop) {
 			try {
 				Thread.sleep(TIME_BETWEEN_REPLOTS);
@@ -115,6 +122,8 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			nextGeneration();
 			repaint();
 			
+			//If stepOne is true ==> it toggle paint loop once to step
+			//AND set the variable back to false preventing it from keep toogling paint loop
 			if(stepOne) {
 				togglePaintLoop();
 				stepOne = false;
@@ -122,6 +131,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
+	//This will clear all the cells from grid
 	public void clearAll() {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
@@ -130,21 +140,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
-	public void moveByOne(boolean iftrue) {
-		
-		cell[36][y1].setAlive(false); 
-		cell[36][y2].setAlive(false); 
-		cell[36][y3].setAlive(false); 
-			
-		y1++;
-		y2++;
-		y3++;
-			
-		cell[36][y1].setAlive(true); 
-		cell[36][y2].setAlive(true); 
-		cell[36][y3].setAlive(true); 
-	}
-	
+	//Initialize Cells
 	public void initCells() {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
@@ -152,6 +148,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			}
 		}
 		
+		//Create default cells
 		cell[36][24].setAlive(true); 
 		cell[36][25].setAlive(true); 
 		cell[36][26].setAlive(true); 
@@ -159,17 +156,12 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		cell[35][26].setAlive(true);
 	}
 
-
+	//Toggle the Paint Loop
 	public void togglePaintLoop() {
 		paintloop = !paintloop;
 	}
-
-
-	public void setPaintLoop(boolean value) {
-		paintloop = value;
-	}
-
-
+	
+	//This will draw the grid with proper size
 	void drawGrid(Graphics g) {
 		for (int row = 0; row <= ROWS; row++) {
 			g.drawLine(X_GRID_OFFSET,
@@ -184,7 +176,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 
-	
+	//This will draw the cells 
 	void drawCells(Graphics g) {
 		// Have each cell draw itself
 		for (int row = 0; row < ROWS; row++) {
@@ -198,7 +190,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 
-
+	//This will draw all the Buttons
 	private void drawButtons() {
 		startStop.repaint();
 		Step.repaint();
@@ -208,11 +200,14 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		Wrap.repaint();
 	}
 
-
+	//This is where all the magic happens!!! Makes Conway's game of Life work...
 	private void nextGeneration() {
 		 for (int row = 0; row < ROWS; row++) {
 	            for (int col = 0; col < COLS; col++) {
 	                Cell a = cell[row][col];
+	                //If wrap is true it will use calcNeighboors
+	                //If wrap is false it will use calcNeighboorsNoWrap
+	                //The wrap variable changes in the Wrap Button
 	                if (wrap) {
 	                	a.calcNeighbors(cell);
 	                } else {
@@ -235,10 +230,11 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 
 	}
 
-
+	//When mouse is clicked ==> it will draw a cell where clicked with offsets
 	public void mouseClicked(MouseEvent arg4) {
 		int x = (arg4.getX() - X_GRID_OFFSET - 1) / (CELL_WIDTH + 1);
 		int y = (arg4.getY() - Y_GRID_OFFSET - 4) / (CELL_HEIGHT + 1);
+		//Exception to prevent spam of errors if mouse is off the grid
 		try {
 			Cell drawNewCell = cell[y][x];
 			drawNewCell.setAlive(!drawNewCell.getAlive());
@@ -248,32 +244,12 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			
 		}
 	}
-
-
-	public void mouseEntered(MouseEvent arg0) {
-
-	}
-
-
-	public void mouseExited(MouseEvent arg0) {
-
-	}
-
-
-	public void mousePressed(MouseEvent arg0) {
-		
-
-	}
-
-
-	public void mouseReleased(MouseEvent arg0) {
-
-	}
-
-
+	
+	//When mouse is pressed down and dragged ==> it will draw cells where the mouse is being dragged with proper offsets
 	public void mouseDragged(MouseEvent arg5) {
 		int x = (arg5.getX() - X_GRID_OFFSET - 1) / (CELL_WIDTH + 1);
 		int y = (arg5.getY() - Y_GRID_OFFSET - 4) / (CELL_HEIGHT + 1);
+		//Exception to prevent spam of errors if mouse is off the grid
 		try {
 			Cell drawNewCell = cell[y][x];
 			drawNewCell.setAlive(!drawNewCell.getAlive(), Color.RED);
@@ -284,18 +260,15 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 
-
-	public void mouseMoved(MouseEvent arg0) {
-		
-	}
-	
-
+	//Start Button code
 	private class StartButton extends JButton implements ActionListener {
 		StartButton() {
 			super("Start");
 			addActionListener(this);
 		}
-
+		
+		//When the button is pressed ==> toggle the paint loop to start code & change name to "Stop". 
+		//If pressed again ==> toggle the paint loop again to stop code & change the name to "Start".
 		public void actionPerformed(ActionEvent arg0) {
 			
 			// nextGeneration(); // test the start button
@@ -315,12 +288,14 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
+	//Step Button code
 	private class StepButton extends JButton implements ActionListener {
 		StepButton() {
 			super("Step");
 			addActionListener(this);
 		}
-
+		
+		//If clicked ==> toggle the paint loop and set stepOne to true which will move the cells by one
 		public void actionPerformed(ActionEvent arg1) {
 			togglePaintLoop();
 			stepOne = true;
@@ -328,12 +303,15 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
+	//Wrap Button code
 	private class WrapButton extends JButton implements ActionListener {
 		WrapButton() {
 			super("No Wrap");
 			addActionListener(this);
 		}
 
+		//If pressed ==> set wrap to false which will run the calcNeighborsNoWrap making the cells not wrap
+		//Also, it will change the name of button to "Wrap"
 		public void actionPerformed(ActionEvent arg7) {
 			if (this.getText().equals("No Wrap")) {
 				wrap = false;
@@ -341,6 +319,8 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 				
 				setText("Wrap");
 			}
+			//If pressed ==> set wrap to true which will run the calcNeighbors making the cells wrap again
+			//Also, it will change the name of button to "No Wrap"
 			else {
 				wrap = true;
 				
@@ -350,14 +330,18 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
+	//Preset Button code
 	private class PresetButton extends JButton implements ActionListener {
 		PresetButton() {
 			super("Still");
 			addActionListener(this);
 		}
-
+		
+		//If pressed...
 		public void actionPerformed(ActionEvent arg6) {
 			
+			//If pressed when button says "Still" ==> clear all cells and create new cells that won't be able to move
+			//AND change name to "Stuff"
 			if (this.getText().equals("Still")) {
 				
 				clearAll();
@@ -391,6 +375,8 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 				repaint();
 			}
 			
+			//If pressed when button says "Stuff" ==> clear all cells and create cells that will move
+			//AND change name of button to "Random"
 			else if (this.getText().equals("Stuff")) {
 				
 				clearAll();
@@ -408,6 +394,8 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 				repaint();
 			}
 			
+			//If pressed when button says "Random" ==> clear all cells and create 3,000 new random cells 
+			//AND change name of Button to "Insane"
 			else if (this.getText().equals("Random")) {
 				
 				clearAll();
@@ -423,6 +411,8 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 				repaint();
 			}
 			
+			//If pressed when button says "Insane" ==> clear all cells and create a straight line of cells going across the  
+			//grid to to some thing COOL!!! AND change name of button to "Default"
 			else if (this.getText().equals("Insane")) {
 				
 				clearAll();
@@ -442,6 +432,8 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 				repaint();
 			}
 			
+			//If pressed when button says "Default" ==> clear all cells and create the default cells 
+			//AND change name of button to "Still"
 			else if (this.getText().equals("Default")) {
 				
 				clearAll();
@@ -461,12 +453,14 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
+	//Clear Button code
 	private class ClearButton extends JButton implements ActionListener {
 		ClearButton() {
 			super("Clear");
 			addActionListener(this);
 		}
-
+		
+		//If pressed ==> clear all cells from grid
 		public void actionPerformed(ActionEvent arg2) {
 			
 			// nextGeneration(); // test the start button
@@ -483,12 +477,14 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 		}
 	}
 	
+	//Quit Button code
 	private class QuitButton extends JButton implements ActionListener {
 		QuitButton() {
 			super("Quit");
 			addActionListener(this);
 		}
 
+		//If pressed ==> Quit the application
 		public void actionPerformed(ActionEvent arg3) {
 			
 			// nextGeneration(); // test the start button
@@ -503,6 +499,33 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			repaint();
 			
 		}
+	}
+
+	//Added Required but unused mouse methods here!!!
+
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
