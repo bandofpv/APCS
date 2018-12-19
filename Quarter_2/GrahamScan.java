@@ -12,12 +12,13 @@ import java.util.*;
 import javax.swing.*;
 
 public class GrahamScan extends JPanel{
+	public static int count = 0;
 	
-	public static int [] finalxx = new int[10];
-	public static int [] finalyy = new int[10];
+	public static String[] finalPointsxx = new String[10];
+    public static String[] finalPointsyy = new String[10];
 	
-	public static Object [] pointsxx = new Object[20];
-	public static Object [] pointsyy = new Object[20];
+	public static Object [] pointsxx = new Object[10];
+	public static Object [] pointsyy = new Object[10];
 	
 	public static int[] allPointsxx = new int[10];
 	public static int[] allPointsyy = new int[10];
@@ -71,24 +72,35 @@ public class GrahamScan extends JPanel{
         
     }
     
-    public static int getrealx(int xcoord) {
+    public int getrealx(int xcoord) {
+    	
     	if (xcoord < 0) {
-    		return -(Math.abs(xcoord) * 4) + 100;
+    		return -(Math.abs(xcoord) * (getWidth() / 50)) + getWidth() / 2;
     	}
     	else if (xcoord > 0) {
-    		return (Math.abs(xcoord) * 4) + 100;
+    		return (Math.abs(xcoord) * (getWidth() / 50)) + getWidth() / 2;
     	}
-    	return 100;
+    	return getWidth() / 2;
     }
     
-    public static int getrealy(int ycoord) {
+    public int getrealy(int ycoord) {
     	if (ycoord < 0) {
-    		return (Math.abs(ycoord) * 4) + 100;
+    		return (Math.abs(ycoord) * (getHeight() / 50)) + getHeight() / 2;
     	}
     	else if (ycoord > 0) {
-    		return -(Math.abs(ycoord) * 4) + 100;
+    		return -(Math.abs(ycoord) * (getHeight() / 50)) + getHeight() / 2;
     	}
-    	return 100;
+    	return getHeight() / 2;
+    }
+    
+    public int getStringx(int xcoord) {
+    	if (xcoord < 0) {
+    		return -(Math.abs(xcoord) * (getWidth() / 50)) + getWidth() / 2 + 10;
+    	}
+    	else if (xcoord > 0) {
+    		return (Math.abs(xcoord) * (getWidth() / 50)) + getWidth() / 2 + 10;
+    	}
+    	return getWidth() / 2 + 10;
     }
     
     public static List<Point> points = new ArrayList<>();
@@ -100,7 +112,7 @@ public class GrahamScan extends JPanel{
     	
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your input.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/points.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/points.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -123,7 +135,7 @@ public class GrahamScan extends JPanel{
 	    
 	    try (
 	    		//NOTE: here is where you have to indicate the full file path to your input.txt file
-		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/points.txt")));
+		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/points.txt")));
 		        ) {
 		        int i = 0;
 
@@ -175,82 +187,40 @@ public class GrahamScan extends JPanel{
         
         pointsxx = hull.toArray();
 	    pointsyy = hull.toArray();
-	    
-	    // Creating a File object that represents the disk file. 
-        //NOTE: here is where you have to indicate the full file path to your ret.txt file
-        PrintStream o = new PrintStream(new File("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")); 
-        
-        // Store current System.out before assigning a new value 
-        PrintStream console = System.out; 
-  
-        // Assign o to output stream 
-        System.setOut(o); 
-       
-        // Print Result 
-        for (int i = 0; i < pointsxx.length; i++) 
-            System.out.println(pointsxx[i]); 
-        System.setOut(console);  
-        
-    //  the following code will attempt to read in x,y coordinate values into
-	    //  separate x and y arrays
-
-	    try (
-	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")));
-	        ) {
-	        while(sc.hasNextLine()) {
-	            //  this file read pass gets total number of coordinates
-	            String[] l1 = sc.nextLine().split(",");
-	            if (l1.length > 1) {
-	               //  without this check, blank lines will throw an exception
-	               newnumcoords++;
-	            }
-	        }
-	    }
-	    catch(Exception e) {
-	        System.out.println("Problem reading coordinates from retpoints.txt file");
-	        //  e.printStackTrace();
-	    }
-	    System.out.println("retpoints.txt file contains " + newnumcoords + " coordinate sets");
-	    
-        int [] retxx = new int[newnumcoords];  //  allocate array, we know
-        int [] retyy = new int[newnumcoords];  //  how many coords are in file
-        
-	    try (
-	    	//NOTE: here is where you have to indicate the full file path to your ret.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/retpoints.txt")));
-	        ) {
-	        int i = 0;
-
-	        while(sc.hasNextLine()) {
-	        //  String line = sc.nextLine();
-
-	            String[] line = sc.nextLine().split(",");
-	            if (line.length > 1) {
-	               //  without this check, blank lines will throw an exception
-	               retxx[i] = Integer.parseInt(line[0].trim());
-	               retyy[i] = Integer.parseInt(line[1].trim());
-	               i++;
-	            }
-	        }
-	     
-	       System.out.println("x: " + Arrays.toString(retxx));
-	       System.out.println("y: " + Arrays.toString(retyy));
-
-	    }
-	    catch(Exception e) {
-	       System.out.println("Problem reading coordinates from retpoints.txt file");
-	       //  e.printStackTrace();
+	    	
+	    for (int i = 0; i < pointsxx.length; i++) {
+	    	String[] parts = pointsxx[i].toString().split(",");
+		    
+		    finalPointsxx[i] = parts[0];
+		    finalPointsyy[i] = parts[1];
+		    count++;
 	    }
 	    
-	    finalxx = retxx;
-		finalyy = retyy;
+	    System.out.println("");
+	    System.out.println("Convex Hull solution");
+	    
+	    System.out.print("x: [");
+	    
+	    for (int i = 0; i < count -1; i++) {
+	    	System.out.print(finalPointsxx[i] + ", ");
+	    }
+	    
+	    System.out.print(finalPointsxx[count-1] + "]");
+	    
+	    System.out.println("");
+	    System.out.print("y: [");
+	    
+	    for (int i = 0; i < count -1; i++) {
+	    	System.out.print(finalPointsyy[i] + ", ");
+	    }
+	    
+	    System.out.print(finalPointsyy[count-1] + "]");
 	    
 	    JFrame.setDefaultLookAndFeelDecorated(true);
-	    JFrame frame = new JFrame("Simple Window");
+	    JFrame frame = new JFrame("Graham Scan");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setBackground(Color.white);
-	    frame.setSize(200, 200);
+	    frame.setSize(500, 500);
 	    
 	    GrahamScan panel = new GrahamScan();
  
@@ -262,29 +232,35 @@ public class GrahamScan extends JPanel{
 
 
     public void paintComponent(Graphics g) {
+   
    	 g.setColor(Color.black);
-   	 for (int i = 0; i < finalxx.length -1; i++) {
+   	 for (int i = 0; i < count-1; i++) {
    		 int a = i+1;
    		 
-   		 g.drawLine(getrealx(finalxx[i]), getrealy(finalyy[i]), getrealx(finalxx[a]), getrealy(finalyy[a]));
+   		 g.drawLine(getrealx(Integer.valueOf(finalPointsxx[i])), getrealy(Integer.valueOf(finalPointsyy[i])), getrealx(Integer.valueOf(finalPointsxx[a])), getrealy(Integer.valueOf(finalPointsyy[a])));
    	 }
    	 
-    	 for (int i = 0; i < allPointsxx.length-1; i++) {
+    	 for (int i = 0; i < numcoords-1; i++) {
    		 int a = i+1;
    		 
    		 g.fillOval(getrealx(allPointsxx[i]) - 5, getrealy(allPointsyy[i]) - 5, 10, 10);
    	 }
    	 
-    	 g.fillOval(getrealx(allPointsxx[allPointsxx.length-1]) - 5, getrealy(allPointsyy[allPointsyy.length-1]) - 5, 10, 10);
+    	 g.fillOval(getrealx(allPointsxx[numcoords-1]) - 5, getrealy(allPointsyy[numcoords-1]) - 5, 10, 10);
    	 
-   	     g.drawString(allPointsxx[allPointsxx.length -1] + ", " + allPointsyy[allPointsyy.length -1],getrealx(allPointsxx[allPointsxx.length -1]),getrealy(allPointsyy[allPointsyy.length -1]));
+   	     g.drawString(allPointsxx[numcoords-1] + ", " + allPointsyy[numcoords-1],getStringx(allPointsxx[numcoords-1]),getrealy(allPointsyy[numcoords-1]));
    	 
-   	     g.drawLine(getrealx(finalxx[finalxx.length -1]), getrealy(finalyy[finalyy.length -1]), getrealx(finalxx[0]), getrealy(finalyy[0]));
+   	     g.drawLine(getrealx(Integer.valueOf(finalPointsxx[count-1])), getrealy(Integer.valueOf(finalPointsyy[count-1])), getrealx(Integer.valueOf(finalPointsxx[0])), getrealy(Integer.valueOf(finalPointsyy[0])));
    	 
-   	     for (int i = 0; i < allPointsxx.length -1; i++) {
+   	     for (int i = 0; i < numcoords -1; i++) {
    		 
-   	    	 g.drawString(allPointsxx[i] + ", " + allPointsyy[i],getrealx(allPointsxx[i]),getrealy(allPointsyy[i]));
+   	    	 g.drawString(allPointsxx[i] + ", " + allPointsyy[i],getStringx(allPointsxx[i]),getrealy(allPointsyy[i]));
    	     }
+   	     
+   	     g.setColor(Color.BLUE);
+   	     g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+   	     g.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+   	     g.drawString("origin", (getWidth() / 2) + 2, (getHeight() / 2) -5);
 
 	  }
 
