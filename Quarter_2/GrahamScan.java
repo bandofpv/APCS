@@ -112,7 +112,7 @@ public class GrahamScan extends JPanel{
     	
 	    try (
 	    	//NOTE: here is where you have to indicate the full file path to your input.txt file
-	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/points.txt")));
+	        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/points.txt")));
 	        ) {
 	        while(sc.hasNextLine()) {
 	            //  this file read pass gets total number of coordinates
@@ -135,7 +135,7 @@ public class GrahamScan extends JPanel{
 	    
 	    try (
 	    		//NOTE: here is where you have to indicate the full file path to your input.txt file
-		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/jbernas/eclipse-workspace/APCS/Quarter_2/points.txt")));
+		        Scanner sc = new Scanner(new BufferedReader(new FileReader("/Users/palycs/eclipse-workspace/APCS/Quarter_2/points.txt")));
 		        ) {
 		        int i = 0;
 
@@ -220,7 +220,7 @@ public class GrahamScan extends JPanel{
 	    JFrame frame = new JFrame("Graham Scan");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setBackground(Color.white);
-	    frame.setSize(500, 500);
+	    frame.setSize(800, 800);
 	    
 	    GrahamScan panel = new GrahamScan();
  

@@ -123,7 +123,7 @@ public class Display extends JComponent implements MouseListener, MouseMotionLis
 			repaint();
 			
 			//If stepOne is true ==> it toggle paint loop once to step
-			//AND set the variable back to false preventing it from keep toogling paint loop
+			//AND set the variable back to false preventing it from keep toggling paint loop
 			if(stepOne) {
 				togglePaintLoop();
 				stepOne = false;
