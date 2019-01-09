@@ -1,0 +1,39 @@
+I created a program Test.java that will print out the result of combining varuous types using the + operator.
+Below is the results:
+
+boolean + boolean ==> illegal
+boolean + char ==> illegal
+boolean + int ==> illegal
+boolean + double ==> illegal
+boolean + String ==> illegal
+
+char + boolean ==> illegal
+char + char ==> legal, addition, int
+char + int ==> legal, addition, int
+char + double ==> legal, adition, double
+char + String ==> legal, concatenation, string
+
+int + boolean ==> illegal
+int + char ==> legal, addition, int
+int + int ==> legal, addition, int
+int + double ==> legal, addition, double
+int + String ==> legal, concatenation, string
+
+double + boolean ==> illegal
+double + char ==> legal, adition, double
+double + int ==> legal, addition, double
+double + double ==> legal, addition, double
+double + String ==> legal, concatenation, string
+
+String + boolean ==> illegal
+String + char ==> legal, concatenation, string
+String + int ==> legal, concatenation, string
+String + double ==> legal, concatenation, string
+String + String ==> legal, concatenation, string
+
+So anything boolean related you can not use the + operator.
+When you use + operator for char, you only get ints and doubles due to addition unless you combine it with another String (concatenation).
+This is the same characteristic for int and double.
+String works with concatenation using the + operator when combining it with everything but boolean. 
+
+
