@@ -58,6 +58,25 @@ public class Test {
 		
 		System.out.println(str1 + str2);
 		//str1str2
+		
+		char x = 'x';
+		
+		x++;
+		
+		//x = x + 1;
+		//Doesn't work
+		
+		System.out.println(x);
+		
+		System.out.println("" + bool1);
+		
+		System.out.println("" + ch1);
+		
+		System.out.println("" + in1);
+		
+		System.out.println("" + doub1);
+		
+		System.out.println("" + str1);
 
 	}
 
