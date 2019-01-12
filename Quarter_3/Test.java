@@ -67,16 +67,22 @@ public class Test {
 		//Doesn't work
 		
 		System.out.println(x);
+		//y
 		
 		System.out.println("" + bool1);
+		//true
 		
 		System.out.println("" + ch1);
+		//a
 		
 		System.out.println("" + in1);
+		//1
 		
 		System.out.println("" + doub1);
+		//1.1
 		
 		System.out.println("" + str1);
+		//str1
 
 	}
 

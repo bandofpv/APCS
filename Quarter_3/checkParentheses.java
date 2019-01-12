@@ -8,6 +8,11 @@ public class checkParentheses {
 
 	}
 	
+	/**
+	 * 
+	 * @param s The string you want to check if it has same numbe of '(' and ')'
+	 * @return number of uncompleted '('
+	 */
 	public static int parenthesesCounter(String s) {
 		int count = 0;
 

@@ -8,6 +8,11 @@ public class letterHist {
 		System.out.println(Arrays.toString(convertHist("qwertyuiopasdfghjklzxcvbnmmmmafadfadfasfafdas")));
 	}
 	
+	/**
+	 * 
+	 * @param a The String you want to convert to histogram
+	 * @return Array with number of each letter
+	 */
 	public static int[] convertHist(String a) {
 		int[] array = new int[26];
 		a = a.toLowerCase();
