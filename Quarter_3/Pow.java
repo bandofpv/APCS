@@ -12,7 +12,7 @@ public class Pow {
 
 	public static BigInteger pow(int x, int n) {
 		BigInteger bigX = BigInteger.valueOf(x);
-		BigInteger bixN = BigInteger.valueOf(n);
+		
 		if (n == 0) return BigInteger.valueOf(1);
 
 		// find x to the n/2 recursively
