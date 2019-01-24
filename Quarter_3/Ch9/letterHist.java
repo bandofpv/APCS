@@ -1,3 +1,4 @@
+package Ch9;
 import java.util.Arrays;
 
 public class letterHist {
