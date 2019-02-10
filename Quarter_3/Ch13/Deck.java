@@ -52,8 +52,15 @@ public class Deck {
 	 * Returns a string representation of the deck.
 	 */
 	public String toString() {
-		return Arrays.toString(this.cards);
-	}
+		StringBuilder result = new StringBuilder();
+	      for (int i = 0; i < this.cards.length; i++) {
+	         result.append(cards[i]);
+	         result.append('\n');
+	      }
+	      return result.toString();
+	      
+	   }
+	
 
 	/**
 	 * Chooses a random number between low and high, including both.
@@ -183,9 +190,9 @@ public class Deck {
 	 * Reorders the cards (in place) using insertion sort.
 	 */
 	public void insertionSort() {
-		for (int i=1;i<cards.length;i++){
-	         for (int j=i; j>0;j--){
-	            if (cards[j-1].compareTo(cards[j]) == 1){
+		for (int i = 1; i < cards.length; i++){
+	         for (int j = i; j > 0; j--){
+	            if (cards[j - 1].compareTo(cards[j]) == 1){
 	               swapCards(j-1,j);
 	            } 
 	            else {
@@ -193,11 +200,6 @@ public class Deck {
 	            }
 	         }
 	      }
-//		for i = 2:n,
-//			    for (k = i; k > 1 and a[k] < a[k-1]; k--)
-//			        swap a[k,k-1]
-//			    → invariant: a[1..i] is sorted
-//			end
 	}
-
+	
 }

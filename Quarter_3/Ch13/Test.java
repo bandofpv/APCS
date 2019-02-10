@@ -40,6 +40,9 @@ public class Test {
         deck.shuffle();
         deck.insertionSort();
         checkSorted(deck);
+        
+        System.out.println(deck);
+       // deck.print();
     }
 
 }
