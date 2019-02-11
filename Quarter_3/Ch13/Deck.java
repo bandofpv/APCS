@@ -192,9 +192,11 @@ public class Deck {
 	public void insertionSort() {
 		for (int i = 1; i < cards.length; i++){
 	         for (int j = i; j > 0; j--){
+	        	 
 	            if (cards[j - 1].compareTo(cards[j]) == 1){
 	               swapCards(j-1,j);
 	            } 
+	            
 	            else {
 	               break;
 	            }
