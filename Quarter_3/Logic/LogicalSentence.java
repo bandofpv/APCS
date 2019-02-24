@@ -4,11 +4,9 @@ public class LogicalSentence {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String hi = "a";
-		System.out.println("a&&ba~a".contains(hi));
-		makeNegation(hi);
-		makeDisjunction(hi, "b");
-		makeConjunction(hi, "b");
+		makeNegation("a");
+		makeDisjunction("a", "b");
+		makeConjunction("a", "b");
 
 	}
 	
