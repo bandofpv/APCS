@@ -4,10 +4,15 @@ public class LogicalSentence {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		String hi = "a";
+		System.out.println("a&&ba~a".contains(hi));
+		makeNegation(hi);
+		makeDisjunction(hi, "b");
+		makeConjunction(hi, "b");
 
 	}
 	
-	public LogicalSentence(String str) {
+	public static void LogicalSentence(String str) {
 		if(simple(str)) {
 			System.out.println(str);
 		}
@@ -16,29 +21,23 @@ public class LogicalSentence {
 		}
 	}
 	
-	public static String makeNegation(String str) {
-		return "~" + str;
+	public static void makeNegation(String str) {
+		LogicalSentence("~" + str);
 	}
 	
-	public static String makeNDisjunction(String str) {
-		return "||" + str;
+	public static void makeDisjunction(String str, String str1) {
+		LogicalSentence(str + "||" + str1);
 	}
 	
-	public static String makeNConjunction(String str) {
-		return "&&" + str;
+	public static void makeConjunction(String str, String str1) {
+		LogicalSentence(str + "&&" + str1);
 	}
 	
-	public static String make(String str) {
-		return "~" + str;
+	public static void make(String str) {
+		LogicalSentence("~" + str);
 	}
 
 	public static boolean simple(String str) {
-		if(str.length() == 1) {
-			"abc".contains(str);
-		}
-		else {
-			return true;
-		}
-		return false;
+		return"~a&&b~b~a||ba||~ba&&~b".contains(str);
 	}
 }
