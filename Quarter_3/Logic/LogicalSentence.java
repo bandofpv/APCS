@@ -4,38 +4,70 @@ public class LogicalSentence {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		makeNegation("a");
-		makeDisjunction("a", "b");
-		makeConjunction("a", "b");
+		LogicalSentence str = new LogicalSentence("a");
+		
+		System.out.println("Making a negation with a");
+		str.makeNegation();
+		System.out.println(str);
+		
+		System.out.println("Making a Disjuntion with ~a and b");
+		str.makeDisjunction("b");
+		System.out.println(str);
+		
+		System.out.println("Making a negation with ~a||b");
+		str.makeNegation();
+		System.out.println(str);
+		
+		LogicalSentence x = new LogicalSentence("a");
+		
+		System.out.println("Making a Conjuntion with a and b");
+		x.makeConjunction("b");
+		System.out.println(x);
+		
+		LogicalSentence y = new LogicalSentence("a");
+		
+		System.out.println("Making a Biconditional with a and b");
+		y.makeBiconditional("b");
+		System.out.println(y);
 
 	}
-	
-	public static void LogicalSentence(String str) {
-		if(simple(str)) {
-			System.out.println(str);
-		}
-		else {
-			System.out.println("Sorry, thats not legal.......");
-		}
+	private String str;
+
+	public LogicalSentence(String str) {
+		this.str = str;
 	}
 	
-	public static void makeNegation(String str) {
-		LogicalSentence("~" + str);
+	public String makeNegation() {
+		this.str = "~" + str;
+		return str.toString();
 	}
 	
-	public static void makeDisjunction(String str, String str1) {
-		LogicalSentence(str + "||" + str1);
+	public String makeDisjunction(String str1) {
+		this.str += "||" + str1;
+		return str.toString();
 	}
 	
-	public static void makeConjunction(String str, String str1) {
-		LogicalSentence(str + "&&" + str1);
+	public String makeConjunction( String str1) {
+		this.str += "&&" + str1;
+		return str.toString();
 	}
 	
-	public static void make(String str) {
-		LogicalSentence("~" + str);
+	public String makeBiconditional(String str1) {
+		this.str += "<==>" + str1;
+		return str.toString();
 	}
 
 	public static boolean simple(String str) {
-		return"~a&&b~b~a||ba||~ba&&~b".contains(str);
+		if("~~".contains(str) != false)return false;
+		return"~a&&b~b~a||ba||~ba&&~ba<==>b~a<==>~b~a<==>ba<==>~b".contains(str);
+	}
+	
+	public String toString() {
+		if(simple(this.str)) {
+			return this.str + "\n";
+		}
+		else {
+			return "Sorry, thats not legal.......\n";
+		}
 	}
 }
