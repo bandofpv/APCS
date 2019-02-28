@@ -8,30 +8,31 @@ public class LogicalSentence {
 		
 		System.out.println("Making a negation with a");
 		str.makeNegation();
-		System.out.println(str);
+		System.out.println(str + "\n");
 		
 		System.out.println("Making a Disjuntion with ~a and b");
 		str.makeDisjunction("b");
-		System.out.println(str);
+		System.out.println(str + "\n");
 		
 		System.out.println("Making a negation with ~a||b");
 		str.makeNegation();
-		System.out.println(str);
+		System.out.println(str + "\n");
 		
 		LogicalSentence x = new LogicalSentence("a");
 		
 		System.out.println("Making a Conjuntion with a and b");
 		x.makeConjunction("b");
-		System.out.println(x);
+		System.out.println(x + "\n");
 		
 		LogicalSentence y = new LogicalSentence("a");
 		
 		System.out.println("Making a Biconditional with a and b");
 		y.makeBiconditional("b");
-		System.out.println(y);
+		System.out.println(y + "\n");
 
 	}
 	private String str;
+	
 
 	public LogicalSentence(String str) {
 		this.str = str;
@@ -64,10 +65,10 @@ public class LogicalSentence {
 	
 	public String toString() {
 		if(simple(this.str)) {
-			return this.str + "\n";
+			return this.str;
 		}
 		else {
-			return "Sorry, thats not legal.......\n";
+			return "Sorry, thats not legal.......";
 		}
 	}
 }
