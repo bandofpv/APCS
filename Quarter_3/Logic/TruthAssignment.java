@@ -9,18 +9,21 @@ public class TruthAssignment{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		System.out.println("Create a TruthAssignment connecting \"a\" to false:");
 		TruthAssignment truthAs = new TruthAssignment();
 		System.out.println(truthAs + "\n");
+		System.out.println("Print the value of the prop const \"a\":");
 		System.out.println(truthAs.getTruthProp("a") + "\n");
 		
 		LogicalSentence[] arr;  
-		arr = new LogicalSentence[2]; 
+		arr = new LogicalSentence[1]; 
 		arr[0]= new LogicalSentence("a||b");  
-		arr[1]= new LogicalSentence("a&&b");
 		
 		TruthAssignment truthLogic = new TruthAssignment(arr);
+		System.out.println("Create a LogicalSentence \"a||b\" and map it to false:");
 		System.out.println(truthLogic + "\n");
-		truthLogic.print();
+		System.out.println("Print the value of the logic sentence \"a||b\":");
 		System.out.println(truthLogic.getTruthLogic(arr[0]) + "\n");
 		
 		PropositionConstant[] pr;  
@@ -28,7 +31,9 @@ public class TruthAssignment{
 		pr[0]= new PropositionConstant("c"); 
 		
 		TruthAssignment truthPR = new TruthAssignment(pr);
+		System.out.println("Create a PropositionConstant \"c\" to false");
 		System.out.println(truthPR + "\n");
+		System.out.println("Print the value of the prop const \"c\":");
 		System.out.println(truthPR.getPC(pr[0]) + "\n");
 	}
 
@@ -84,6 +89,8 @@ public class TruthAssignment{
 		return this.ta.get(pr.toString());
 	}
 	
+	//A toString that will return the name of the Key and its corresponding value. 
+	
 	public String toString() {
 		Set<Map.Entry<String,Boolean>> st = ta.entrySet();
         for(Map.Entry<String,Boolean> me:st) {
@@ -91,14 +98,6 @@ public class TruthAssignment{
             return "Key="+me.getKey()+", Value="+me.getValue();
         }
         return "";
-	}
-	
-	public void print() {
-		Set<Map.Entry<String,Boolean>> st = ta.entrySet();
-		for(Map.Entry<String,Boolean> me:st) {
-
-            System.out.println("Key="+me.getKey()+", Value="+me.getValue());
-        }
 	}
 
 }
