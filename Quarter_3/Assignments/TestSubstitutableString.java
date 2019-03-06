@@ -5,25 +5,58 @@ import java.util.regex.Pattern;
 
 interface SubstitutableString{
 	
-	void substituteAll(String a, String b, String c);
+	static String extractFirstParen(String a) {
+		return null;
+	}
+	static String substituteAll(String a, String b, String c) {
+		return null;
+	}
 }
 
 public abstract class TestSubstitutableString implements SubstitutableString{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(extractFirstParen("a(()c)b"));
+		System.out.println("Cases for extractFirstParen method \n");
 		
-		 String x= "Hello (Java)";
-		 Matcher m = Pattern.compile("\\((.*?)\\)").matcher(x);
-		while(m.find()) {
-		    System.out.println(m.group(1));
-		}
+		System.out.println("Test Cases:");
+		System.out.println("\"a(c)b\" : " + extractFirstParen("a(c)b"));
+		System.out.println("\"(\" : " + extractFirstParen("("));
+		System.out.println("\")(\" : " + extractFirstParen(")("));
+		System.out.println("\"(adas)(fa))\" : " + extractFirstParen("(adas)(fa))") + "\n");
+		
+		System.out.println("Edge cases:");
+		System.out.println("\"(adas))(!)((@)(#)\" : " + extractFirstParen("(adas))(!)((@)(#)"));
+		System.out.println("\"(a()(*)\" : " + extractFirstParen("(a()(*)") + "\n");
+		
+		System.out.println("Cases for substituteAll method \n");
+		
+		System.out.println("Test Cases:");
+		System.out.println("\"abc\", \"b\", \"c\" : " + substituteAll("abc", "b", "c"));
+		System.out.println("\"Andrew is cool\", \"cool\", \"happy\" : " +substituteAll("Andrew is cool", "cool", "happy"));
+		System.out.println("\"aca\", \"b\", \"c\" : " +substituteAll("aca", "b", "c"));
+
 	}
 	
+	// given a string returns the earliest substring delimited by parenthesis that contains no parenthesis.
 	public static String extractFirstParen(String a) {
-		return a.substring(a.indexOf("(") + 1, a.indexOf(")"));
+		if(a.contains("(") && a.contains(")")) {
+			if(a.lastIndexOf('(') < a.indexOf(')')) {
+				return a.substring(a.lastIndexOf('(') + 1, a.indexOf(')'));
+			}
+		}
+		return "Error";
 
+	}
+	
+	// return a string equal to a, *except* that every occurance of b in a is substituted for by c.
+	public static String substituteAll(String a, String b, String c) {
+		if(a.contains(b)) {
+			String ret = a;
+			ret = ret.replaceAll(b, c);
+			return ret;
+		}
+		return a;
 	}
 
 	/**
