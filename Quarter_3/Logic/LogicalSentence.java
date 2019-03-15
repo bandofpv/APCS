@@ -44,23 +44,18 @@ public class LogicalSentence {
 	}
 	
 	public String makeDisjunction(String str1) {
-		this.str += "||" + str1;
+		this.str += "|" + str1;
 		return str.toString();
 	}
 	
 	public String makeConjunction( String str1) {
-		this.str += "&&" + str1;
+		this.str += "&" + str1;
 		return str.toString();
 	}
 	
 	public String makeBiconditional(String str1) {
-		this.str += "<==>" + str1;
+		this.str += "<=>" + str1;
 		return str.toString();
-	}
-
-	public static boolean simple(String str) {
-		if("~~".contains(str) != false)return false;
-		return"~a&&b~b~a||ba||~ba&&~ba<==>b~a<==>~b~a<==>ba<==>~b".contains(str);
 	}
 	
 	public String toString() {
@@ -70,5 +65,10 @@ public class LogicalSentence {
 		else {
 			return "Sorry, thats not legal.......";
 		}
+	}
+	
+	public static boolean simple(String str) {
+		if("~~".contains(str) != false)return false;
+		return"~a&b~b~a|ba|~ba&~ba<=>b~a<=>~b~a<=>ba<=>~b".contains(str);
 	}
 }
