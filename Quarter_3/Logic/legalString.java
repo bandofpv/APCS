@@ -44,9 +44,8 @@ public class legalString {
 		String[] arr = new String[4];
 		arr[0] = "a";
 		arr[1] = "b";
-		arr[2] = "a";
-		arr[3] = "b";
-		System.out.println(pgenerateAllPairwiseConjunctions(arr));
+		System.out.println(generateAllPairwiseConjunctions(arr));
+		System.out.println(generateAllPairwiseGeneral(arr));
 	}
 	private String str;
 
@@ -76,33 +75,48 @@ public class legalString {
 		return false;
 	}
 
-	public static String pgenerateAllPairwiseConjunctions(String[] pcs) {
+	public static String generateAllPairwiseConjunctions(String[] pcs) {
 		String[] ret = new String[pcs.length/2];
-//		LogicalSentence[] ls = new LogicalSentence[ret.length];
-//		for(int i = 0; i < pcs.length; i += 2) {
-//			for(int z = 0; z < ret.length; z++) {
-//			ls[z] = new LogicalSentence(pcs[i]);
-//			ls[z].makeConjunction(pcs[i++]);
-//			
-//			ret[z] = ls[z].toString();
-//			}
-//		}
 		LogicalSentence[] ls = new LogicalSentence[ret.length];
 		ls[0] = new LogicalSentence(pcs[0]);
 		ls[0].makeConjunction(pcs[1]);
-		ls[1] = new LogicalSentence(pcs[2]);
-		ls[1].makeConjunction(pcs[3]);
+		ls[1] = new LogicalSentence(pcs[1]);
+		ls[1].makeConjunction(pcs[0]);
 		ret[0] = ls[0].toString();
 		ret[1] = ls[1].toString();
-		//System.out.println(ls[0]);
 		return Arrays.toString(ret);
 	}
 
-	public String generateAllPairwiseGeneral(String[] pcs) {
-		return "hi1";
+	public static String generateAllPairwiseGeneral(String[] pcs) {
+		String[] ret = new String[pcs.length*2];
+		LogicalSentence[] ls = new LogicalSentence[pcs.length*2];
+		
+		ls[0] = new LogicalSentence(pcs[0]);
+		ls[0].makeConjunction(pcs[1]);
+		ls[1] = new LogicalSentence(pcs[1]);
+		ls[1].makeConjunction(pcs[0]);
+		ls[2] = new LogicalSentence(pcs[0]);
+		ls[2].makeDisjunction(pcs[1]);
+		ls[3] = new LogicalSentence(pcs[1]);
+		ls[3].makeDisjunction(pcs[0]);
+		ls[4] = new LogicalSentence(pcs[0]);
+		ls[4].makeNegation();
+		ls[5] = new LogicalSentence(pcs[1]);
+		ls[5].makeNegation();
+		ls[6] = new LogicalSentence(pcs[0]);
+		ls[6].makeBiconditional(pcs[1]);
+		ls[7] = new LogicalSentence(pcs[1]);
+		ls[7].makeBiconditional(pcs[0]);
+		
+		for(int i = 0; i < ret.length; i++) {
+			ret[i] = ls[i].toString();
+		}
+
+		return Arrays.toString(ret);
 	}
 
 	public String generateAllSentencesLessThan6CharsLong(String[] pcs) {
+		
 		return "hi2";
 	}
 

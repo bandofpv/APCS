@@ -69,6 +69,6 @@ public class LogicalSentence {
 	
 	public static boolean simple(String str) {
 		if("~~".contains(str) != false)return false;
-		return"~a&b~b~a|ba|~ba&~ba<=>b~a<=>~b~a<=>ba<=>~b".contains(str);
+		return"b|ab&a~a&b~b~a|ba|~ba&~ba<=>b~a<=>~b~a<=>ba<=>~b<=>a".contains(str);
 	}
 }
