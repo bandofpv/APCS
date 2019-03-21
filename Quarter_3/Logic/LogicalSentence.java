@@ -63,7 +63,8 @@ public class LogicalSentence {
 			return this.str;
 		}
 		else {
-			return "Sorry, thats not legal.......";
+			//return "Sorry, thats not legal.......";
+			return this.str;
 		}
 	}
 	

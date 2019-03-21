@@ -6,46 +6,51 @@ public class legalString {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//		System.out.println("Test Cases: \n");
-		//
-		//		System.out.println("Check if \"a\" is legal");
-		//		System.out.println(legal("a") + "\n");
-		//
-		//		System.out.println("Check if \"a&b\" is legal");
-		//		System.out.println(legal("a&b")+ "\n");
-		//
-		//		System.out.println("Check if \"(a&b)\" is legal");
-		//		System.out.println(legal("(a&b)") + "\n");
-		//
-		//		System.out.println("Check if \"((a&b) || c)\" is legal");
-		//		System.out.println(legal("((a&b) || c)") + "\n");
-		//		
-		//		System.out.println("Edge Cases: \n");
-		//		
-		//		System.out.println("Test if \")(a)(\" is legal");
-		//		System.out.println(legal(")(a)("));
-
-		//		String[] str = new String[1];
-		//		str[0] = "a||b";
-		//		TruthAssignment ta = new TruthAssignment(str);
-		//		System.out.println("Created a String of \"a||b\" and assigned it to false.");
-		//		System.out.println("evaluate method returns:");
-		//		System.out.println(evaluate(str[0], ta) + "\n");
-		//		
-		//		String[] str1 = new String[1];
-		//		str1[0] = "a&b";
-		//		boolean[] bool1 = new boolean[1];
-		//		bool1[0] = true;
-		//		TruthAssignment ta1 = new TruthAssignment(str1, bool1);
-		//		System.out.println("Created a String of \"a&b\" and assigned it to true.");
-		//		System.out.println("evaluate method returns:");
-		//		System.out.println(evaluate(str1[0], ta1) + "\n");
+		System.out.println("Test Cases: \n");
 		
+		System.out.println("Check if \"a\" is legal");
+		System.out.println(legal("a") + "\n");
+		
+		System.out.println("Check if \"a&b\" is legal");
+		System.out.println(legal("a&b")+ "\n");
+		
+		System.out.println("Check if \"(a&b)\" is legal");
+		System.out.println(legal("(a&b)") + "\n");
+		
+		System.out.println("Check if \"((a&b) || c)\" is legal");
+		System.out.println(legal("((a&b) || c)") + "\n");
+		
+		System.out.println("Edge Cases: \n");
+		
+		System.out.println("Test if \")(a)(\" is legal");
+		System.out.println(legal(")(a)("));
+
+		String[] str = new String[1];
+		str[0] = "a||b";
+		TruthAssignment ta = new TruthAssignment(str);
+		System.out.println("Created a String of \"a||b\" and assigned it to false.");
+		System.out.println("evaluate method returns:");
+		System.out.println(evaluate(str[0], ta) + "\n");
+				
+		String[] str1 = new String[1];
+		str1[0] = "a&b";
+		boolean[] bool1 = new boolean[1];
+		bool1[0] = true;
+		TruthAssignment ta1 = new TruthAssignment(str1, bool1);
+		System.out.println("Created a String of \"a&b\" and assigned it to true.");
+		System.out.println("evaluate method returns:");
+		System.out.println(evaluate(str1[0], ta1) + "\n");
+
+		System.out.println("Created an array with two prop const \"a\" and \"b\" \n");
 		String[] arr = new String[4];
 		arr[0] = "a";
 		arr[1] = "b";
-		System.out.println(generateAllPairwiseConjunctions(arr));
-		System.out.println(generateAllPairwiseGeneral(arr));
+		System.out.println("Output of generateAllPairwiseConjunctions for our array");
+		System.out.println(generateAllPairwiseConjunctions(arr) + "\n");
+		System.out.println("Output of generateAllPairwiseGeneral for our array");
+		System.out.println(generateAllPairwiseGeneral(arr) + "\n");
+
+		System.out.println(generateAllSentencesLessThan6CharsLong(arr));
 	}
 	private String str;
 
@@ -90,7 +95,7 @@ public class legalString {
 	public static String generateAllPairwiseGeneral(String[] pcs) {
 		String[] ret = new String[pcs.length*2];
 		LogicalSentence[] ls = new LogicalSentence[pcs.length*2];
-		
+
 		ls[0] = new LogicalSentence(pcs[0]);
 		ls[0].makeConjunction(pcs[1]);
 		ls[1] = new LogicalSentence(pcs[1]);
@@ -107,7 +112,7 @@ public class legalString {
 		ls[6].makeBiconditional(pcs[1]);
 		ls[7] = new LogicalSentence(pcs[1]);
 		ls[7].makeBiconditional(pcs[0]);
-		
+
 		for(int i = 0; i < ret.length; i++) {
 			ret[i] = ls[i].toString();
 		}
@@ -115,23 +120,52 @@ public class legalString {
 		return Arrays.toString(ret);
 	}
 
-	public String generateAllSentencesLessThan6CharsLong(String[] pcs) {
+	public static String generateAllSentencesLessThan6CharsLong(String[] pcs) {
+		String[] ret = new String[16];
+		LogicalSentence[] ls = new LogicalSentence[16];
+		for (int i = 0; i < ret.length/2; i++) {
+			ls[i] = new LogicalSentence(pcs[0]);
+		}
+		for (int i = ret.length/2; i < ret.length; i++) {
+			ls[i] = new LogicalSentence(pcs[1]);
+		}
 		
-		return "hi2";
+		
+		ls[0].makeNegation();
+		ls[0].makeBiconditional(pcs[1]);
+		
+		ls[1].makeNegation();
+		
+		ls[2].makeConjunction(pcs[1]);
+		
+		ls[3].makeDisjunction(pcs[1]);
+		
+		ls[4].makeBiconditional(pcs[1]);
+		
+		ls[5].makeNegation();
+		ls[5].makeConjunction(pcs[1]);
+		
+		ls[8].makeNegation();
+		ls[8].makeBiconditional(pcs[0]);
+
+		ls[9].makeNegation();
+		
+		ls[10].makeConjunction(pcs[1]);
+		
+		ls[11].makeDisjunction(pcs[0]);
+		
+		ls[12].makeBiconditional(pcs[0]);
+
+
+		for(int i = 0; i < ret.length; i++) {
+			ret[i] = ls[i].toString();
+		}
+
+		return Arrays.toString(ret);
 	}
 
 	public String generateAllSentencesShorterThan(String[] pcs, int maxLength) {
 		return "hi3";
-	}
-
-	//toString method returning String of logical sentence or if it's not legal than "Sorry, thats not legal......."
-	public String toString() {
-		if(simple(this.str)) {
-			return this.str;
-		}
-		else {
-			return "Sorry, thats not legal.......";
-		}
 	}
 
 	//Checks if the sentence is simiple and legal
