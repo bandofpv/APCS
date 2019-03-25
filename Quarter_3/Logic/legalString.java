@@ -50,7 +50,12 @@ public class legalString {
 		System.out.println("Output of generateAllPairwiseGeneral for our array");
 		System.out.println(generateAllPairwiseGeneral(arr) + "\n");
 
-		System.out.println(generateAllSentencesLessThan6CharsLong(arr));
+		System.out.println("Output of generateAllSentencesLessThan6CharsLong for our array");
+		System.out.println(generateAllSentencesLessThan6CharsLong(arr) + "\n");
+		
+		System.out.println("Output of generateAllSentencesShorterThan for our array");
+		System.out.println(generateAllSentencesShorterThan(arr, 8));
+		
 	}
 	private String str;
 
@@ -145,6 +150,10 @@ public class legalString {
 		ls[5].makeNegation();
 		ls[5].makeConjunction(pcs[1]);
 		
+		ls[6].makeNegation();
+		ls[6].makeDisjunction(pcs[1]);
+		
+		
 		ls[8].makeNegation();
 		ls[8].makeBiconditional(pcs[0]);
 
@@ -155,6 +164,12 @@ public class legalString {
 		ls[11].makeDisjunction(pcs[0]);
 		
 		ls[12].makeBiconditional(pcs[0]);
+		
+		ls[13].makeNegation();
+		ls[13].makeConjunction(pcs[0]);
+		
+		ls[14].makeNegation();
+		ls[14].makeDisjunction(pcs[0]);
 
 
 		for(int i = 0; i < ret.length; i++) {
@@ -164,8 +179,8 @@ public class legalString {
 		return Arrays.toString(ret);
 	}
 
-	public String generateAllSentencesShorterThan(String[] pcs, int maxLength) {
-		return "hi3";
+	public static String generateAllSentencesShorterThan(String[] pcs, int maxLength) {
+		return "idk lol";
 	}
 
 	//Checks if the sentence is simiple and legal
