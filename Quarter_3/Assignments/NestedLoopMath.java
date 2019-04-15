@@ -36,11 +36,11 @@ public class NestedLoopMath {
 		return this.npa;
 	}
 	
-	public double[] zeroOut(double[] a, double[] b) {
-		double[] ret = new double[a.length];
-		double i = a[0]/b[0];
-		ret = rowOp(a,i);
-		ret = rowAdd(ret,b);
-		return ret;
-	}
+//	public double[] zeroOut(double[] a, double[] b) {
+//		double[] ret = new double[a.length];
+//		double i = a[0]/b[0];
+//		ret = rowOp(a,i);
+//		ret = rowAdd(ret,b);
+//		return ret;
+//	}
 }
