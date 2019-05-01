@@ -4,7 +4,14 @@ public class Matrix {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		double[] a = new double[4];
+		a[0] = 1;
+		a[1] = 1;
+		a[2] = 1;
+		a[3] = 1;
+		Matrix b = new Matrix(a, 2,2);
+		
+		System.out.println(b.get(1,1));
 	}
 	
 	public double[][] Mat = new double[0][0];
