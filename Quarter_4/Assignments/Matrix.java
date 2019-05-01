@@ -8,8 +8,14 @@ public class Matrix {
 	}
 	
 	public double[][] Mat = new double[0][0];
+	public int row;
+	public int col;
+	public int nums;
 	
 	public Matrix(double[] a, int rows,int cols) {
+		this.row = rows;
+		this.col = cols;
+		this.nums = a.length;
 		this.Mat = new double[rows][cols];
 		int count = 0;
 		for(int i = 0; i < a.length; i++) {
@@ -17,4 +23,19 @@ public class Matrix {
 			Mat[i][count] = a[i];
 		}
 	}
+	
+	public double get(int row, int col) {
+		return this.Mat[col][row];
+	}
+	
+	public double[] mvmult(Matrix m) {
+		int count = 0; 
+		double [] ret = new double[this.row * this.col];
+		for(int i = 0; i < this.nums; i++) {
+			if(count % this.row == 0) count++;
+			ret[i] += Mat[i][count] + m.get(i, count);
+		}
+		return ret;
+	}
+	
 }
